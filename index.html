@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Craft Addict — Where you can find your next craft fix</title>
+  <link rel="icon" href="Favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <section id="hero" class="section full-viewport">
+      <div class="hero-inner">
+        <img id="hero-logo" src="Logo.png" alt="Craft Addict logo" />
+        <h1>Craft Addict</h1>
+        <p class="subtitle">Where you can find your next craft fix</p>
+      </div>
+    </section>
+
+    <section id="finder" class="section">
+      <div class="finder-inner">
+        <h2>What are you looking for?</h2>
+        <div class="choices">
+          <button id="btn-inspo" class="pill">Craft inspiration</button>
+          <button id="btn-wizard" class="pill outline">Tell me what to craft</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="inspo" class="section hidden">
+      <div class="inspo-inner">
+        <h2>Get inspired</h2>
+        <div id="inspo-loader" class="loader" aria-hidden="true">
+          <div class="yarn" role="img" aria-label="Loading inspiration"></div>
+          <div class="loader-text" aria-hidden="true">Rolling up inspiration…</div>
+        </div>
+        <div id="inspo-grid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="wizard" class="section hidden">
+      <div class="wizard-inner">
+        <h2>Tell us a bit about you</h2>
+        <form id="wizard-form">
+          <div class="step" data-step="1">
+            <label class="label">How much time do you have to dedicate to this craft?</label>
+            <div class="radios">
+              <label><input type="radio" name="time" value="30 min"> 30 min</label>
+              <label><input type="radio" name="time" value="1 hour"> 1 hour</label>
+              <label><input type="radio" name="time" value="4 hours"> 4 hours</label>
+              <label><input type="radio" name="time" value="multiple days"> Multiple days</label>
+            </div>
+          </div>
+
+          <div class="step" data-step="2">
+            <label class="label">Tell us what crafts you've already tried</label>
+            <input id="craft-search" placeholder="Search crafts" class="search" />
+            <div id="craft-list" class="craft-list"></div>
+          </div>
+
+          <div id="experience-wrap" class="step hidden" data-step="3">
+            <label class="label">For selected crafts, choose your experience level</label>
+            <div id="experience-list"></div>
+            <div class="toggle-row">
+              <span>Do you want to be prompted by a craft you've already tried before?</span>
+              <label class="switch"><input type="checkbox" id="prompt-same"><span class="slider"></span></label>
+              <span class="toggle-label">No / Yes</span>
+            </div>
+          </div>
+
+          <div class="step" data-step="4">
+            <label class="label">What is your preferred method of learning? (select all that apply)</label>
+            <div class="checkboxes">
+              <label><input type="checkbox" name="method" value="Written instructions"> Written instructions</label>
+              <label><input type="checkbox" name="method" value="Photos or diagrams"> Photos or diagrams</label>
+              <label><input type="checkbox" name="method" value="Video tutorial"> Video tutorial</label>
+              <label><input type="checkbox" name="method" value="Audio descriptions"> Audio descriptions</label>
+              <label><input type="checkbox" name="method" value="In-person instructions"> In-person instructions</label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="prev-step" class="btn small hidden">Back</button>
+            <button type="button" id="next-step" class="btn small">Next</button>
+            <button type="button" id="submit-wizard" class="btn primary hidden">Let's craft</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="result" class="section hidden">
+      <div class="result-inner">
+        <h2>Your latest craft fix...</h2>
+        <div id="result-title" class="result-title">—</div>
+        <div id="result-tags" class="tags"></div>
+        <a href="#" id="shuffle">Shuffle craft</a>
+        <p id="result-desc"></p>
+
+        <div id="resources">
+          <h3>Resources</h3>
+          <div id="resource-list"></div>
+        </div>
+
+        <div class="completion">
+          <small>When you've completed your craft, let us know.</small>
+          <button id="crafted-btn" class="btn primary">I crafted this!</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="confetti" class="confetti hidden"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
