@@ -19,15 +19,14 @@
 }
 .finder-diamond {
   background: #FFF6EE;
-  width: 320px;
-  height: 520px;
+  width: 340px;
+  height: 540px;
   max-width: 90vw;
   max-height: 90vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: rotate(45deg);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   margin-bottom: 0;
   position: relative;
   z-index: 2;
@@ -37,13 +36,13 @@
   transition: opacity 0.7s cubic-bezier(.4,1.4,.6,1), transform 0.7s cubic-bezier(.4,1.4,.6,1);
 }
 .finder-diamond .finder-inner {
-  transform: rotate(-45deg);
   width: 100%;
   text-align: center;
+  padding: 28px;
 }
 .finder-diamond.pop-in {
   opacity: 1;
-  transform: rotate(45deg) scale(1.04);
+  transform: scale(1.04);
 }
 @media(max-width:600px){
   .finder-diamond{width:200px;height:320px;}
@@ -51,15 +50,15 @@
 }
 .diamond{
   background:#FFF6EE;
-  width:320px;height:520px;max-width:90vw;max-height:90vh;
+  width:340px;height:540px;max-width:90vw;max-height:90vh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transform:rotate(45deg);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   margin-bottom:0;position:relative;z-index:2;
   box-shadow:0 8px 32px rgba(31,58,47,0.12);
   border:6px solid #E06A2F;
 }
-.diamond img,#hero-logo{width:260px;height:auto;max-width:80vw;transform:rotate(-45deg);margin-bottom:18px;display:block;}
-.diamond .subtitle{font-size:22px;color:#6C563F;text-align:center;transform:rotate(-45deg);margin:0;}
+.diamond img,#hero-logo{width:260px;height:auto;max-width:80vw;margin-bottom:18px;display:block;}
+.diamond .subtitle{font-size:22px;color:#6C563F;text-align:center;margin:0;}
 .scroll-line{width:0;height:120px;position:relative;z-index:1;}
 .scroll-line .scroll-anchor{display:block;width:6px;height:100vh;background:linear-gradient(180deg,#E06A2F 60%,#E06A2F 100%);margin:0 auto;border-radius:3px;position:absolute;top:0;left:50%;transform:translateX(-50%);}
 @media(max-width:600px){
@@ -82,9 +81,6 @@
 .full-viewport{min-height:100vh;display:flex;align-items:center;justify-content:center}
 #hero-inner{display:none;}
 .diamond-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;position:relative;z-index:2}
-.diamond{background:#FFF6EE;border-radius:16px;box-shadow:0 8px 32px rgba(31,58,47,0.12);width:420px;height:420px;max-width:90vw;max-height:90vw;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(45deg);margin-bottom:0;position:relative;z-index:2}
-.diamond img,#hero-logo{width:260px;height:auto;max-width:80vw;transform:rotate(-45deg);margin-bottom:18px;display:block;}
-.diamond .subtitle{font-size:22px;color:#6C563F;text-align:center;transform:rotate(-45deg);margin:0;}
 .scroll-line{width:0;height:120px;position:relative;z-index:1;}
 .scroll-line .scroll-anchor{display:block;width:6px;height:100vh;background:linear-gradient(180deg,#E06A2F 60%,#E06A2F 100%);margin:0 auto;border-radius:3px;position:absolute;top:0;left:50%;transform:translateX(-50%);}
 h1{font-size:48px;margin:0;letter-spacing:1px;color:var(--accent-2);font-weight:800}
@@ -170,27 +166,31 @@ html,body {
 
 body::before {
   content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(90deg, transparent, transparent 60px, #FFF6EE 60px, #FFF6EE 120px),
-    repeating-linear-gradient(180deg, transparent, transparent 120px, #FFF6EE 120px, #FFF6EE 240px);
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
 }
 
-.bg-diamond-star {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-  --bg: repeating-linear-gradient(
-    135deg,
-    #F5EBD9 0px, #F5EBD9 80px,
-    #E06A2F 120px, #E06A2F 200px,
-    #F5EBD9 240px, #F5EBD9 320px,
-    #E06A2F 360px, #E06A2F 440px,
-    #F5EBD9 480px, #F5EBD9 560px
-  );
+/* Full-page repeating SVG tile background: vertical diamonds with stars */
+body{
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='480' viewBox='0 0 320 480'>
+  <style>
+    .star{transform-box:fill-box;transform-origin:50% 50%;animation:starGrow 3s ease-in-out infinite}
+    @keyframes starGrow{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:0.7}}
+  </style>
+  <rect width='100%' height='100%' fill='%23FFF6EE'/>
+  <!-- left diamond -->
+  <g transform='translate(40,0)'>
+    <polygon points='80,40 140,240 80,440 20,240' fill='%23E06A2F'/>
+    <polygon class='star' points='80,180 110,240 80,300 50,240' fill='%23FFF6EE'/>
+  </g>
+  <!-- center diamond -->
+  <g transform='translate(0,0)'>
+    <polygon points='160,40 220,240 160,440 100,240' fill='%232CB6A6'/>
+    <polygon class='star' points='160,180 190,240 160,300 130,240' fill='%23FFF6EE'/>
+  </g>
+  <!-- right diamond -->
+  <g transform='translate(120,0)'>
+    <polygon points='240,40 300,240 240,440 180,240' fill='%23F9B233'/>
+    <polygon class='star' points='240,180 270,240 240,300 210,240' fill='%23FFF6EE'/>
+  </g>
+</svg>");
+  background-repeat: repeat; background-size:320px 480px; background-color: #FFF6EE;}
