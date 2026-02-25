@@ -1,3 +1,21 @@
+.diamond{
+  background:#FFF6EE;
+  width:420px;height:420px;max-width:90vw;max-height:90vw;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(45deg);
+  margin-bottom:0;position:relative;z-index:2;
+  box-shadow:0 8px 32px rgba(31,58,47,0.12);
+  border:6px solid #E06A2F;
+}
+.diamond img,#hero-logo{width:260px;height:auto;max-width:80vw;transform:rotate(-45deg);margin-bottom:18px;display:block;}
+.diamond .subtitle{font-size:22px;color:#6C563F;text-align:center;transform:rotate(-45deg);margin:0;}
+.scroll-line{width:0;height:120px;position:relative;z-index:1;}
+.scroll-line .scroll-anchor{display:block;width:6px;height:100vh;background:linear-gradient(180deg,#E06A2F 60%,#E06A2F 100%);margin:0 auto;border-radius:3px;position:absolute;top:0;left:50%;transform:translateX(-50%);}
+@media(max-width:600px){
+  .diamond{width:260px;height:260px;}
+  .diamond img,#hero-logo{width:120px;}
+  .diamond .subtitle{font-size:14px;}
+}
 :root{
   --bg:#F5EBD9;
   --accent:#E06A2F;
@@ -12,7 +30,12 @@
 .section{padding:48px 20px}
 .full-viewport{min-height:100vh;display:flex;align-items:center;justify-content:center}
 #hero-inner{display:none;}
-#hero-logo{width:320px;height:auto;margin-bottom:18px;transition:transform .25s ease;display:block;margin-left:auto;margin-right:auto;max-width:90vw;}
+.diamond-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;position:relative;z-index:2}
+.diamond{background:#FFF6EE;border-radius:16px;box-shadow:0 8px 32px rgba(31,58,47,0.12);width:420px;height:420px;max-width:90vw;max-height:90vw;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(45deg);margin-bottom:0;position:relative;z-index:2}
+.diamond img,#hero-logo{width:260px;height:auto;max-width:80vw;transform:rotate(-45deg);margin-bottom:18px;display:block;}
+.diamond .subtitle{font-size:22px;color:#6C563F;text-align:center;transform:rotate(-45deg);margin:0;}
+.scroll-line{width:0;height:120px;position:relative;z-index:1;}
+.scroll-line .scroll-anchor{display:block;width:6px;height:100vh;background:linear-gradient(180deg,#E06A2F 60%,#E06A2F 100%);margin:0 auto;border-radius:3px;position:absolute;top:0;left:50%;transform:translateX(-50%);}
 h1{font-size:48px;margin:0;letter-spacing:1px;color:var(--accent-2);font-weight:800}
 .subtitle{font-size:18px;color:var(--muted);margin-top:8px}
 
@@ -85,7 +108,16 @@ h1, h2{font-family: 'Nunito', 'Futura', 'Avenir', sans-serif}
   .loader-text{font-size:14px}
 }
 
-html,body{height:100%;margin:0;font-family:var(--font-sans);background:var(--bg);color:var(--muted)}
+html,body{
+  height:100%;
+  margin:0;
+  font-family:var(--font-sans);
+  color:var(--muted);
+  background:
+    repeating-linear-gradient(135deg,#FFF6EE 0px,#FFF6EE 80px,#E06A2F 120px,#E06A2F 200px,#FFF6EE 240px,#FFF6EE 320px,#E06A2F 360px,#E06A2F 440px,#FFF6EE 480px,#FFF6EE 560px),
+    url('data:image/svg+xml;utf8,<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="120" fill="%23FFF6EE"/><polygon points="60,10 110,60 60,110 10,60" fill="%23E06A2F"/><polygon points="60,30 90,60 60,90 30,60" fill="%23FFF6EE"/><polygon points="60,50 70,60 60,70 50,60" fill="%23E06A2F"/></svg>') repeat;
+  background-size: 120px 120px;
+}
   --bg: repeating-linear-gradient(
     135deg,
     #F5EBD9 0px, #F5EBD9 80px,
