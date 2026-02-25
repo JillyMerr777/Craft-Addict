@@ -1,3 +1,18 @@
+// Animate finder diamond pop-in when scrolled into view
+document.addEventListener('DOMContentLoaded',()=>{
+  const finderDiamond = document.querySelector('.finder-diamond');
+  if(finderDiamond){
+    function onScroll(){
+      const rect = finderDiamond.getBoundingClientRect();
+      if(rect.top < window.innerHeight * 0.7){
+        finderDiamond.classList.add('pop-in');
+        window.removeEventListener('scroll', onScroll);
+      }
+    }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  }
+});
 // Basic interactions for Craft Addict
 document.addEventListener('DOMContentLoaded',()=>{
   const heroLogo = document.getElementById('hero-logo');
