@@ -8,55 +8,34 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- SVG background pattern for animated stars -->
-  <div id="bg-svg" style="position:fixed;inset:0;z-index:-2;pointer-events:none;width:100vw;height:100vh;overflow:hidden">
-    <svg width="100%" height="100%" viewBox="0 0 320 480" style="display:block;">
-      <rect width="100%" height="100%" fill="#FFF6EE"/>
-      <g transform="translate(40,0)">
-        <polygon points="80,40 140,240 80,440 20,240" fill="#E06A2F"/>
-        <polygon class="star" points="80,180 110,240 80,300 50,240" fill="#FFF6EE"/>
-      </g>
-      <g transform="translate(0,0)">
-        <polygon points="160,40 220,240 160,440 100,240" fill="#2CB6A6"/>
-        <polygon class="star" points="160,180 190,240 160,300 130,240" fill="#FFF6EE"/>
-      </g>
-      <g transform="translate(120,0)">
-        <polygon points="240,40 300,240 240,440 180,240" fill="#F9B233"/>
-        <polygon class="star" points="240,180 270,240 240,300 210,240" fill="#FFF6EE"/>
-      </g>
-      <style>
-        .star { transform-origin:50% 50%; animation: starGrow 3s ease-in-out infinite; }
-        @keyframes starGrow { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} }
-      </style>
-    </svg>
-  </div>
-  <main>
-    <section id="hero" class="section full-viewport">
-      <div class="hero-inner">
-        <div class="diamond-wrap">
-          <div class="diamond">
-            <img id="hero-logo" src="Logo.png" alt="Craft Addict logo" />
-            <p class="subtitle">Where you can find your next craft fix</p>
-          </div>
-          <div class="scroll-line">
-            <a href="#finder" class="scroll-anchor" aria-label="Scroll to next section"></a>
-          </div>
-        </div>
-        
-        <div id="finder"></div>
+  <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <main class="app-shell">
+    <section id="hero" class="hero-section">
+      <div class="top-auth">
+        <span class="auth-text">Already craft with us?</span>
+        <button type="button" class="sign-in-btn">Sign in</button>
+      </div>
+
+      <div class="hero-center">
+        <img id="hero-logo" class="hero-logo" src="Logo.png" alt="Craft Addict Logo" />
+        <h1>CRAFT ADDICT</h1>
+        <p class="subtitle">Where you can find your next craft fix</p>
+        <button id="scroll-to-choices" class="down-arrow-btn" aria-label="Scroll to choices">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 5v14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M19 12l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
       </div>
     </section>
 
-    <section id="finder" class="section">
-      <div class="finder-diamond-wrap">
-        <div class="finder-diamond pop-in">
-          <div class="finder-inner">
-            <h2>What are you looking for?</h2>
-            <div class="choices">
-              <button id="btn-inspo" class="pill">Craft inspiration</button>
-              <button id="btn-wizard" class="pill outline">Tell me what to craft</button>
-            </div>
-          </div>
+    <section id="choices-section" class="choices-section">
+      <div id="choices-content" class="choices-content">
+        <h2>What are you looking for?</h2>
+        <div class="choices">
+          <button id="btn-inspo" class="choice-btn choice-btn-inspo">Craft inspiration</button>
+          <button id="btn-wizard" class="choice-btn choice-btn-wizard">Tell me what to craft</button>
         </div>
       </div>
     </section>
