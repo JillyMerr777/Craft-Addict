@@ -1,8 +1,378 @@
+const INSPIRATION_PROJECTS = [
+  {
+    id: 1,
+    title: "Macrame Wall Hanging",
+    image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600",
+    url: "https://www.pinterest.com/pin/example1",
+    size: "large"
+  },
+  {
+    id: 2,
+    title: "Watercolor Painting",
+    image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600",
+    url: "https://www.pinterest.com/pin/example2",
+    size: "small"
+  },
+  {
+    id: 3,
+    title: "Knitted Scarf",
+    image: "https://images.unsplash.com/photo-1559551409-dadc959f76b8?w=600",
+    url: "https://www.pinterest.com/pin/example3",
+    size: "medium"
+  },
+  {
+    id: 4,
+    title: "Pottery Bowl",
+    image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=600",
+    url: "https://www.pinterest.com/pin/example4",
+    size: "medium"
+  },
+  {
+    id: 5,
+    title: "Paper Quilling Art",
+    image: "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=600",
+    url: "https://www.pinterest.com/pin/example5",
+    size: "small"
+  },
+  {
+    id: 6,
+    title: "Crochet Blanket",
+    image: "https://images.unsplash.com/photo-1606500939862-d93481d4463a?w=600",
+    url: "https://www.pinterest.com/pin/example6",
+    size: "large"
+  },
+  {
+    id: 7,
+    title: "Embroidery Hoop Art",
+    image: "https://images.unsplash.com/photo-1601599561213-832382fd07ba?w=600",
+    url: "https://www.pinterest.com/pin/example7",
+    size: "medium"
+  },
+  {
+    id: 8,
+    title: "Resin Jewelry",
+    image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600",
+    url: "https://www.pinterest.com/pin/example8",
+    size: "small"
+  },
+  {
+    id: 9,
+    title: "Stained Glass",
+    image: "https://images.unsplash.com/photo-1551732998-9de9ddacc6ec?w=600",
+    url: "https://www.pinterest.com/pin/example9",
+    size: "medium"
+  },
+  {
+    id: 10,
+    title: "Needle Felting",
+    image: "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=600",
+    url: "https://www.pinterest.com/pin/example10",
+    size: "large"
+  },
+  {
+    id: 11,
+    title: "Acrylic Pour Painting",
+    image: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600",
+    url: "https://www.pinterest.com/pin/example11",
+    size: "small"
+  },
+  {
+    id: 12,
+    title: "Origami Flowers",
+    image: "https://images.unsplash.com/photo-1544376664-80b17f09d399?w=600",
+    url: "https://www.pinterest.com/pin/example12",
+    size: "medium"
+  },
+  {
+    id: 13,
+    title: "Scrapbooking",
+    image: "https://images.unsplash.com/photo-1770198809758-f29e74422507?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY3JhcGJvb2tpbmclMjBjcmFmdCUyMHByb2plY3R8ZW58MXx8fHwxNzcyMTI2NzIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example13",
+    size: "medium"
+  },
+  {
+    id: 14,
+    title: "Handmade Candles",
+    image: "https://images.unsplash.com/photo-1716819685618-2f7abb7fbed2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYW5kbWFkZSUyMGNhbmRsZXMlMjBjcmFmdHN8ZW58MXx8fHwxNzcyMTI2NzIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example14",
+    size: "small"
+  },
+  {
+    id: 15,
+    title: "Beaded Jewelry",
+    image: "https://images.unsplash.com/photo-1715374033196-0ff662284a7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFkZWQlMjBqZXdlbHJ5JTIwbWFraW5nfGVufDF8fHx8MTc3MjEyNjcyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example15",
+    size: "large"
+  },
+  {
+    id: 16,
+    title: "Wood Carving",
+    image: "https://images.unsplash.com/photo-1723531362703-a8f0b4e9d288?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29kJTIwY2FydmluZyUyMGFydHxlbnwxfHx8fDE3NzIwNTI3ODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example16",
+    size: "small"
+  },
+  {
+    id: 17,
+    title: "Quilting",
+    image: "https://images.unsplash.com/photo-1752752309455-a4f00ba787ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZXdpbmclMjBxdWlsdGluZyUyMGZhYnJpY3xlbnwxfHx8fDE3NzIxMjY3MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example17",
+    size: "medium"
+  },
+  {
+    id: 18,
+    title: "Ceramic Pottery",
+    image: "https://images.unsplash.com/photo-1642355779950-3a19623cf7aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjZXJhbWljJTIwcG90dGVyeSUyMHdoZWVsfGVufDF8fHx8MTc3MjEyNjcyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example18",
+    size: "medium"
+  },
+  {
+    id: 19,
+    title: "Calligraphy",
+    image: "https://images.unsplash.com/photo-1660652023147-f84fd622bc2a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWxsaWdyYXBoeSUyMHBlbiUyMGlua3xlbnwxfHx8fDE3NzIxMjY3MjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example19",
+    size: "small"
+  },
+  {
+    id: 20,
+    title: "Leather Crafting",
+    image: "https://images.unsplash.com/photo-1644258676710-ffb99d7d7a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwY3JhZnRpbmclMjB0b29sc3xlbnwxfHx8fDE3NzIwMjY5Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example20",
+    size: "large"
+  },
+  {
+    id: 21,
+    title: "Cross Stitch",
+    image: "https://images.unsplash.com/photo-1692604814081-593c31b66fbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9zcyUyMHN0aXRjaCUyMGVtYnJvaWRlcnl8ZW58MXx8fHwxNzcyMTI2NzI0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example21",
+    size: "medium"
+  },
+  {
+    id: 22,
+    title: "Polymer Clay Sculpture",
+    image: "https://images.unsplash.com/photo-1662661600800-0b7220bab431?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwb2x5bWVyJTIwY2xheSUyMHNjdWxwdHVyZXxlbnwxfHx8fDE3NzIxMjY3MjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    url: "https://www.pinterest.com/pin/example22",
+    size: "small"
+  }
+];
+
+const CRAFT_OPTIONS = [
+  "Crocheting",
+  "Knitting",
+  "Watercolor",
+  "Acrylic Painting",
+  "Needle Felting",
+  "Stained Glass",
+  "Embroidery",
+  "Cross-stitch",
+  "Macrame",
+  "Pottery",
+  "Origami",
+  "Paper Quilling",
+  "Resin Art",
+  "Jewelry Making",
+  "Sewing",
+  "Quilting",
+  "Scrapbooking",
+  "Calligraphy",
+  "Wood Burning",
+  "Candle Making"
+];
+
+const LEARNING_OPTIONS = [
+  "Written instructions",
+  "Photos or diagrams",
+  "Video tutorial",
+  "Audio descriptions",
+  "In-person instructions"
+];
+
+const SHOP_OPTIONS = [
+  { id: "local", label: "Local craft store", requiresZip: true },
+  { id: "amazon", label: "Amazon", requiresZip: false },
+  { id: "michaels", label: "Michaels", requiresZip: false },
+  { id: "hobbylobby", label: "Hobby Lobby", requiresZip: false }
+];
+
+const CRAFT_SUGGESTIONS = [
+  {
+    name: "Knit a Cozy Scarf",
+    description:
+      "Learn to knit a beautiful, warm scarf perfect for beginners. This project will teach you basic knitting stitches and help you create something practical and stylish.",
+    why:
+      "This craft matches your time commitment and is perfect for someone starting their knitting journey.",
+    overview:
+      "Knitting is a relaxing craft that creates fabric by interlocking loops of yarn using two needles. It's portable, meditative, and produces beautiful handmade items.",
+    resources: [
+      { title: "Beginner Knitting Tutorial", type: "video", url: "https://youtube.com/watch?v=example" },
+      {
+        title: "How to Cast On Diagram",
+        type: "diagram",
+        imageUrl:
+          "https://images.unsplash.com/photo-1710352461682-7c674af3c8df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrbml0dGluZyUyMGNhc3QlMjBvbiUyMGRpYWdyYW18ZW58MXx8fHwxNzcyMTMxMjQyfDA&ixlib=rb-4.1.0&q=80&w=1080"
+      },
+      { title: "Basic Knit Stitch Pattern", type: "written", url: "https://example.com/patterns" }
+    ],
+    suppliesList: [
+      "2 skeins of worsted weight yarn (approximately 400 yards total)",
+      "9mm knitting needles",
+      "Scissors",
+      "Yarn needle for weaving ends"
+    ],
+    supplies: [
+      {
+        item: "Worsted Weight Yarn",
+        amazon: "https://amazon.com/yarn",
+        michaels: "https://michaels.com/yarn",
+        hobbylobby: "https://hobbylobby.com/yarn"
+      },
+      {
+        item: "Size 8 Knitting Needles",
+        amazon: "https://amazon.com/needles",
+        michaels: "https://michaels.com/needles",
+        hobbylobby: "https://hobbylobby.com/needles"
+      }
+    ],
+    tips: [
+      "Start with light-colored yarn so you can see your stitches clearly",
+      "Practice your tension - not too tight, not too loose",
+      "Count your stitches at the end of each row to catch mistakes early",
+      "Take breaks to avoid hand fatigue"
+    ]
+  },
+  {
+    name: "Paint a Watercolor Landscape",
+    description:
+      "Create a serene watercolor landscape with simple techniques. Perfect for exploring color blending and wet-on-wet painting methods.",
+    why:
+      "Watercolor is forgiving for beginners and matches your artistic interests based on your selections.",
+    overview:
+      "Watercolor painting uses water-soluble pigments to create luminous, flowing artwork. It's known for its transparency and ability to create soft, dreamy effects.",
+    resources: [
+      { title: "Watercolor Basics for Beginners", type: "video", url: "https://youtube.com/watch?v=example" },
+      {
+        title: "Color Mixing Guide",
+        type: "diagram",
+        imageUrl:
+          "https://images.unsplash.com/photo-1676913011586-63736eaf3339?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRlcmNvbG9yJTIwY29sb3IlMjBtaXhpbmclMjBjaGFydHxlbnwxfHx8fDE3NzIxMzEyNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+      }
+    ],
+    suppliesList: [
+      "Watercolor paper pad (140lb or higher)",
+      "Beginner watercolor set (12-24 colors)",
+      "Round brushes in sizes 4, 8, and 12",
+      "Two water containers",
+      "Paper towels"
+    ],
+    supplies: [
+      {
+        item: "Watercolor Paper Pad",
+        amazon: "https://amazon.com/paper",
+        michaels: "https://michaels.com/paper",
+        hobbylobby: "https://hobbylobby.com/paper"
+      },
+      {
+        item: "Beginner Watercolor Set",
+        amazon: "https://amazon.com/paints",
+        michaels: "https://michaels.com/paints",
+        hobbylobby: "https://hobbylobby.com/paints"
+      },
+      {
+        item: "Round Brushes (various sizes)",
+        amazon: "https://amazon.com/brushes",
+        michaels: "https://michaels.com/brushes",
+        hobbylobby: "https://hobbylobby.com/brushes"
+      }
+    ],
+    tips: [
+      "Use quality watercolor paper (140lb minimum) to prevent buckling",
+      "Start with light washes and build up color gradually",
+      "Keep two water containers - one for cleaning, one for diluting",
+      "Let layers dry completely before adding details"
+    ]
+  },
+  {
+    name: "Create a Macrame Plant Hanger",
+    description:
+      "Learn basic macrame knots to create a beautiful hanging plant holder. A trendy project that adds bohemian charm to any space.",
+    why:
+      "This is a quick, satisfying project that fits your time frame and creates functional home decor.",
+    overview:
+      "Macrame is the art of knotting cord to create decorative items. It requires no special tools and has seen a huge resurgence in popularity.",
+    resources: [
+      { title: "Macrame Knots for Beginners", type: "video", url: "https://youtube.com/watch?v=example" },
+      { title: "Plant Hanger Pattern", type: "written", url: "https://example.com/pattern" }
+    ],
+    suppliesList: [
+      "100 feet of 3mm macrame cord",
+      "1 wooden or metal ring (1-2 inches diameter)",
+      "Scissors",
+      "Measuring tape"
+    ],
+    supplies: [
+      {
+        item: "3mm Macrame Cord",
+        amazon: "https://amazon.com/cord",
+        michaels: "https://michaels.com/cord",
+        hobbylobby: "https://hobbylobby.com/cord"
+      },
+      {
+        item: "Wooden Ring",
+        amazon: "https://amazon.com/ring",
+        michaels: "https://michaels.com/ring",
+        hobbylobby: "https://hobbylobby.com/ring"
+      }
+    ],
+    tips: [
+      "Cut your cords longer than you think you'll need",
+      "Practice knots on scrap cord first",
+      "Work on a clipboard or tape your project to a surface",
+      "Measure and mark your cord placement for symmetry"
+    ]
+  }
+];
+
+const appState = {
+  page: "home",
+  wizard: {
+    timeCommitment: "",
+    selectedCrafts: [],
+    repeatCraft: true,
+    learningPreferences: [],
+    search: ""
+  },
+  result: {
+    currentSuggestion: CRAFT_SUGGESTIONS[0],
+    supplyPreferences: [],
+    zipCode: "",
+    showSupplyLinks: false
+  }
+};
+
+const PAGE_IDS = {
+  home: "page-home",
+  inspiration: "page-inspiration",
+  wizard: "page-wizard",
+  result: "page-result"
+};
+
+const PAGE_HASH = {
+  home: "",
+  inspiration: "#inspiration",
+  wizard: "#wizard",
+  result: "#craft-result"
+};
+
+const HASH_PAGE = {
+  "#inspiration": "inspiration",
+  "#wizard": "wizard",
+  "#craft-result": "result"
+};
+
 function initBackgroundCanvas() {
-  const canvas = document.getElementById('bg-canvas');
+  const canvas = document.getElementById("bg-canvas");
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
   let frameId = 0;
@@ -32,7 +402,7 @@ function initBackgroundCanvas() {
   function drawStar(centerX, centerY, outerRadius, innerRadius, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.fillStyle = '#f5a623';
+    ctx.fillStyle = "#f5a623";
     ctx.beginPath();
 
     for (let i = 0; i < 16; i += 1) {
@@ -53,7 +423,7 @@ function initBackgroundCanvas() {
   }
 
   function drawFrame(offsetY, timeMs) {
-    const palette = ['#e76f30', '#f5a623', '#4a9e9e', '#838f4a', '#d66d75'];
+    const palette = ["#e76f30", "#f5a623", "#4a9e9e", "#838f4a", "#d66d75"];
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let x = -tileW; x < canvas.width + tileW; x += tileW) {
@@ -91,8 +461,7 @@ function initBackgroundCanvas() {
     const delta = now - lastTime;
     lastTime = now;
 
-    const speed = 0.02;
-    verticalOffset = (verticalOffset + delta * speed) % tileH;
+    verticalOffset = (verticalOffset + delta * 0.02) % tileH;
     drawFrame(verticalOffset, now);
 
     frameId = requestAnimationFrame(tick);
@@ -107,481 +476,739 @@ function initBackgroundCanvas() {
   });
   mutationObserver.observe(document.body, { childList: true, subtree: true });
 
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     resizeCanvas();
     buildStarField();
   });
 
   frameId = requestAnimationFrame(tick);
 
-  return () => {
+  window.addEventListener("beforeunload", () => {
     mutationObserver.disconnect();
     cancelAnimationFrame(frameId);
-  };
+  });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initBackgroundCanvas();
-
-  const choicesSection = document.getElementById('choices-section');
-  const choicesContent = document.getElementById('choices-content');
-  const scrollToChoicesBtn = document.getElementById('scroll-to-choices');
-
-  function smoothScrollTo(element) {
-    if (!element) return;
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  if (scrollToChoicesBtn && choicesSection) {
-    scrollToChoicesBtn.addEventListener('click', () => smoothScrollTo(choicesSection));
-  }
-
-  function updateChoicesMotion() {
-    if (!choicesSection || !choicesContent) return;
-
-    const rect = choicesSection.getBoundingClientRect();
-    const viewport = window.innerHeight;
-    const rawProgress = (viewport - rect.top) / (viewport + rect.height);
-    const progress = Math.max(0, Math.min(1, rawProgress));
-
-    const y = 100 - 200 * progress;
-    let opacity = 0;
-    if (progress < 0.3) {
-      opacity = progress / 0.3;
-    } else if (progress < 0.7) {
-      opacity = 1;
-    } else {
-      opacity = Math.max(0, 1 - (progress - 0.7) / 0.3);
+function showPage(page, syncHash = true) {
+  Object.keys(PAGE_IDS).forEach((key) => {
+    const section = document.getElementById(PAGE_IDS[key]);
+    if (section) {
+      section.classList.toggle("hidden", key !== page);
     }
+  });
 
-    choicesContent.style.transform = `translateY(${y}px)`;
-    choicesContent.style.opacity = String(opacity);
+  appState.page = page;
+
+  if (syncHash && PAGE_HASH[page] !== undefined) {
+    if (location.hash !== PAGE_HASH[page]) {
+      if (PAGE_HASH[page]) {
+        location.hash = PAGE_HASH[page];
+      } else if (location.hash) {
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+    }
   }
 
-  window.addEventListener('scroll', updateChoicesMotion, { passive: true });
-  updateChoicesMotion();
+  window.scrollTo(0, 0);
+}
 
-  const inspo = document.getElementById('inspo');
-  const wizard = document.getElementById('wizard');
-  const result = document.getElementById('result');
-  const btnInspo = document.getElementById('btn-inspo');
-  const btnWizard = document.getElementById('btn-wizard');
+function initializePageFromHash() {
+  const page = HASH_PAGE[location.hash] || "home";
+  showPage(page, false);
+}
 
-  if (btnInspo) {
-    btnInspo.addEventListener('click', () => {
-      if (inspo) inspo.classList.remove('hidden');
-      if (wizard) wizard.classList.add('hidden');
-      if (result) result.classList.add('hidden');
-      smoothScrollTo(inspo);
+function updateChoicesMotion() {
+  if (appState.page !== "home") return;
+
+  const choicesSection = document.getElementById("choices-section");
+  const choicesContent = document.getElementById("choices-content");
+  if (!choicesSection || !choicesContent) return;
+
+  const rect = choicesSection.getBoundingClientRect();
+  const viewport = window.innerHeight;
+  const rawProgress = (viewport - rect.top) / (viewport + rect.height);
+  const progress = Math.max(0, Math.min(1, rawProgress));
+
+  const y = 100 - 200 * progress;
+  let opacity = 0;
+  if (progress < 0.3) {
+    opacity = progress / 0.3;
+  } else if (progress < 0.7) {
+    opacity = 1;
+  } else {
+    opacity = Math.max(0, 1 - (progress - 0.7) / 0.3);
+  }
+
+  choicesContent.style.transform = `translateY(${y}px)`;
+  choicesContent.style.opacity = String(opacity);
+}
+
+function buildInspirationGrid() {
+  const grid = document.getElementById("inspo-grid");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  INSPIRATION_PROJECTS.forEach((project) => {
+    const tile = document.createElement("a");
+    tile.className = `inspo-tile ${project.size === "large" ? "large" : ""}`;
+    tile.href = project.url;
+    tile.target = "_blank";
+    tile.rel = "noopener noreferrer";
+
+    const img = document.createElement("img");
+    img.src = project.image;
+    img.alt = project.title;
+
+    const overlay = document.createElement("div");
+    overlay.className = "inspo-overlay";
+    const text = document.createElement("span");
+    text.textContent = project.title;
+    overlay.appendChild(text);
+
+    tile.appendChild(img);
+    tile.appendChild(overlay);
+    grid.appendChild(tile);
+  });
+}
+
+function getSelectedCraft(craftName) {
+  return appState.wizard.selectedCrafts.find((craft) => craft.name === craftName);
+}
+
+function toggleCraft(craftName) {
+  const existing = getSelectedCraft(craftName);
+  if (existing) {
+    appState.wizard.selectedCrafts = appState.wizard.selectedCrafts.filter((craft) => craft.name !== craftName);
+  } else {
+    appState.wizard.selectedCrafts.push({ name: craftName, level: "beginner" });
+  }
+}
+
+function setCraftLevel(craftName, level) {
+  appState.wizard.selectedCrafts = appState.wizard.selectedCrafts.map((craft) => {
+    if (craft.name === craftName) {
+      return { ...craft, level };
+    }
+    return craft;
+  });
+}
+
+function toggleLearningPreference(option) {
+  if (appState.wizard.learningPreferences.includes(option)) {
+    appState.wizard.learningPreferences = appState.wizard.learningPreferences.filter((item) => item !== option);
+  } else {
+    appState.wizard.learningPreferences.push(option);
+  }
+}
+
+function renderTimeOptions() {
+  const wrap = document.getElementById("time-options");
+  if (!wrap) return;
+
+  const times = ["30 min", "1 hour", "4 hours", "Multiple days"];
+  wrap.innerHTML = "";
+
+  times.forEach((time) => {
+    const row = document.createElement("label");
+    row.className = `option-row time ${appState.wizard.timeCommitment === time ? "active" : ""}`;
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "craft-time";
+    input.checked = appState.wizard.timeCommitment === time;
+    input.addEventListener("change", () => {
+      appState.wizard.timeCommitment = time;
+      renderTimeOptions();
     });
-  }
 
-  if (btnWizard) {
-    btnWizard.addEventListener('click', () => {
-      if (wizard) wizard.classList.remove('hidden');
-      if (inspo) inspo.classList.add('hidden');
-      if (result) result.classList.add('hidden');
-      smoothScrollTo(wizard);
+    const text = document.createElement("span");
+    text.className = "option-text";
+    text.textContent = time;
+
+    row.appendChild(input);
+    row.appendChild(text);
+    wrap.appendChild(row);
+  });
+}
+
+function renderCraftList() {
+  const list = document.getElementById("wizard-craft-list");
+  const clear = document.getElementById("wizard-clear-crafts");
+  if (!list || !clear) return;
+
+  const query = appState.wizard.search.trim().toLowerCase();
+  const filtered = CRAFT_OPTIONS.filter((craft) => craft.toLowerCase().includes(query));
+
+  list.innerHTML = "";
+
+  filtered.forEach((craftName) => {
+    const selected = getSelectedCraft(craftName);
+
+    const item = document.createElement("div");
+
+    const row = document.createElement("label");
+    row.className = `option-row craft ${selected ? "active" : ""}`;
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = Boolean(selected);
+    input.addEventListener("change", () => {
+      toggleCraft(craftName);
+      renderCraftList();
     });
-  }
 
-  const inspoGrid = document.getElementById('inspo-grid');
-  const sampleImgs = [
-    'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=1000',
-    'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1000',
-    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1000',
-    'https://images.unsplash.com/photo-1541976076758-3d7b1b6cf4b1?w=1000',
-    'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=1000',
-    'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1000',
-    'https://images.unsplash.com/photo-1520975682223-3d6cc2d4f2c6?w=1000',
-    'https://images.unsplash.com/photo-1526178612108-7a146b5a0b09?w=1000',
-    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?w=1000'
-  ];
+    const text = document.createElement("span");
+    text.className = "option-text";
+    text.textContent = craftName;
 
-  async function fetchPinterestSearch(query) {
-    const searchUrl = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(query)}`;
-    const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(searchUrl);
+    row.appendChild(input);
+    row.appendChild(text);
+    item.appendChild(row);
 
-    try {
-      const response = await fetch(proxy);
-      if (!response.ok) throw new Error('Network response not ok');
+    if (selected) {
+      const expWrap = document.createElement("div");
+      expWrap.className = "exp-wrap";
 
-      const text = await response.text();
-      const doc = new DOMParser().parseFromString(text, 'text/html');
-      const anchors = Array.from(doc.querySelectorAll('a[href*="/pin/"]'));
-      const pins = [];
+      const label = document.createElement("p");
+      label.className = "exp-label";
+      label.textContent = "Experience level:";
+      expWrap.appendChild(label);
 
-      for (const anchor of anchors) {
-        const image = anchor.querySelector('img');
-        if (!image) continue;
+      const pills = document.createElement("div");
+      pills.className = "exp-pills";
 
-        let srcUrl = image.src || '';
-        if (image.srcset) {
-          try {
-            const parts = image.srcset.split(',').map((part) => part.trim());
-            const last = parts[parts.length - 1] || parts[0];
-            const match = last.match(/(https?:.*)\s+\d+w$/);
-            srcUrl = match && match[1] ? match[1] : last.split(' ')[0];
-          } catch (_error) {
-            srcUrl = image.src || srcUrl;
-          }
-        }
-
-        const href = anchor.getAttribute('href') || '';
-        const full = href.startsWith('http') ? href : `https://www.pinterest.com${href}`;
-        pins.push({ src: srcUrl, href: full });
-
-        if (pins.length >= 30) break;
-      }
-
-      return pins;
-    } catch (error) {
-      console.warn('Pinterest fetch failed, using fallback images', error);
-      return null;
-    }
-  }
-
-  async function resolvePinDestination(pinPageUrl) {
-    try {
-      const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(pinPageUrl);
-      const response = await fetch(proxy);
-      if (!response.ok) throw new Error('Failed to fetch pin page');
-
-      const html = await response.text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const anchors = Array.from(doc.querySelectorAll('a[href^="http"]'));
-
-      for (const anchor of anchors) {
-        const href = anchor.getAttribute('href');
-        if (!href) continue;
-        try {
-          const url = new URL(href);
-          if (url.hostname && !url.hostname.includes('pinterest.com')) {
-            return href;
-          }
-        } catch (_error) {
-          continue;
-        }
-      }
-
-      const metaOg = doc.querySelector('meta[property="og:url"]') || doc.querySelector('meta[name="og:url"]');
-      if (metaOg && metaOg.content && !metaOg.content.includes('pinterest.com')) {
-        return metaOg.content;
-      }
-
-      return null;
-    } catch (error) {
-      console.warn('Could not resolve pin destination', error);
-      return null;
-    }
-  }
-
-  async function buildInspo() {
-    if (!inspoGrid) return;
-
-    inspoGrid.innerHTML = '';
-    const loader = document.getElementById('inspo-loader');
-    if (loader) loader.classList.remove('hidden');
-
-    const pins = await fetchPinterestSearch('craft ideas');
-    const sourcePins = pins && pins.length ? pins : sampleImgs.map((src) => ({
-      src,
-      href: 'https://www.pinterest.com/search/pins/?q=craft%20ideas'
-    }));
-
-    sourcePins.forEach((pin) => {
-      const link = document.createElement('a');
-      link.href = pin.href;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.className = 'tile';
-      link.dataset.pin = pin.href;
-
-      const image = document.createElement('img');
-      image.src = pin.src;
-      image.alt = 'craft idea';
-      link.appendChild(image);
-
-      if (pins && pins.length) {
-        link.addEventListener('click', async function onPinClick(event) {
-          if (event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1) return;
-          event.preventDefault();
-          const pinUrl = this.dataset.pin || '';
-          const destination = await resolvePinDestination(pinUrl);
-          window.open(destination || pinUrl, '_blank');
+      ["beginner", "intermediate", "expert"].forEach((level) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = `exp-pill ${selected.level === level ? "active" : ""}`;
+        pill.textContent = level;
+        pill.addEventListener("click", () => {
+          setCraftLevel(craftName, level);
+          renderCraftList();
+          renderResultTags();
         });
-      }
-
-      inspoGrid.appendChild(link);
-    });
-
-    if (loader) loader.classList.add('hidden');
-  }
-
-  buildInspo();
-
-  const crafts = [
-    'Crocheting',
-    'Knitting',
-    'Watercolor',
-    'Acrylic painting',
-    'Needle felting',
-    'Stained glass',
-    'Embroidery',
-    'Sewing',
-    'Quilting',
-    'Paper crafting',
-    'Calligraphy',
-    'Woodworking',
-    'Macrame',
-    'Candle making',
-    'Soap making',
-    'Resin art',
-    'Beading',
-    'Leatherworking'
-  ];
-
-  const craftList = document.getElementById('craft-list');
-  const craftSearch = document.getElementById('craft-search');
-  const experienceWrap = document.getElementById('experience-wrap');
-  const experienceList = document.getElementById('experience-list');
-
-  function renderCrafts(filter = '') {
-    if (!craftList) return;
-    craftList.innerHTML = '';
-
-    crafts
-      .filter((craft) => craft.toLowerCase().includes(filter.toLowerCase()))
-      .forEach((craft) => {
-        const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" value="${craft}" name="craft"> ${craft}`;
-        craftList.appendChild(label);
-      });
-  }
-
-  renderCrafts();
-
-  if (craftSearch) {
-    craftSearch.addEventListener('input', (event) => renderCrafts(event.target.value));
-  }
-
-  if (craftList) {
-    craftList.addEventListener('change', () => {
-      const selected = Array.from(craftList.querySelectorAll('input[type=checkbox]:checked')).map((item) => item.value);
-      if (experienceWrap) {
-        experienceWrap.classList.toggle('hidden', selected.length === 0);
-      }
-
-      if (!experienceList) return;
-      experienceList.innerHTML = '';
-      selected.forEach((craft) => {
-        const wrap = document.createElement('div');
-        wrap.className = 'exp-row';
-        wrap.innerHTML = `<strong>${craft}</strong><div class="exp-options">`
-          + `<label><input type="radio" name="exp-${craft}" value="Beginner"> Beginner</label>`
-          + `<label><input type="radio" name="exp-${craft}" value="Intermediate"> Intermediate</label>`
-          + `<label><input type="radio" name="exp-${craft}" value="Expert"> Expert</label>`
-          + '</div>';
-        experienceList.appendChild(wrap);
-      });
-    });
-  }
-
-  const steps = Array.from(document.querySelectorAll('.step'));
-  let currentStep = 0;
-  const prevBtn = document.getElementById('prev-step');
-  const nextBtn = document.getElementById('next-step');
-  const submitBtn = document.getElementById('submit-wizard');
-
-  function showStep(index) {
-    if (steps.length === 0) return;
-    steps.forEach((step) => step.classList.add('hidden'));
-    steps[index].classList.remove('hidden');
-
-    if (prevBtn) prevBtn.classList.toggle('hidden', index === 0);
-    if (nextBtn) nextBtn.classList.toggle('hidden', index === steps.length - 1);
-    if (submitBtn) submitBtn.classList.toggle('hidden', index !== steps.length - 1);
-  }
-
-  showStep(currentStep);
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      currentStep = Math.max(0, currentStep - 1);
-      showStep(currentStep);
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      currentStep = Math.min(steps.length - 1, currentStep + 1);
-      showStep(currentStep);
-    });
-  }
-
-  function generateCraftSuggestion(choice) {
-    const verbs = {
-      Crocheting: 'crochet a cozy coaster',
-      Knitting: 'knit a simple scarf',
-      Watercolor: 'paint a loose floral watercolor',
-      'Acrylic painting': 'paint a small acrylic portrait',
-      'Needle felting': 'make a small felted animal',
-      'Stained glass': 'craft a suncatcher'
-    };
-    return verbs[choice] || `make a ${choice.toLowerCase()} project`;
-  }
-
-  function generateTips(_choice, level) {
-    if (level === 'Beginner') {
-      return 'Start small: use beginner kits, follow step-by-step videos, and give yourself small goals.';
-    }
-    if (level === 'Intermediate') {
-      return 'Try a slightly bigger pattern and experiment with color palettes.';
-    }
-    return 'Challenge yourself with advanced patterns and teach someone else.';
-  }
-
-  function runConfetti() {
-    const conf = document.getElementById('confetti');
-    if (!conf) return;
-    conf.classList.remove('hidden');
-    conf.innerHTML = '';
-
-    const emojis = ['🧶', '✂️', '🎨', '🪡', '🧵', '🖌️', '📐', '🧩'];
-    for (let i = 0; i < 40; i += 1) {
-      const el = document.createElement('div');
-      el.className = 'c-item';
-      el.style.position = 'fixed';
-      el.style.left = `${Math.random() * 100}%`;
-      el.style.top = '-10px';
-      el.style.fontSize = `${12 + Math.random() * 28}px`;
-      el.style.opacity = '0.95';
-      el.style.transform = `rotate(${Math.random() * 360}deg)`;
-      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-
-      conf.appendChild(el);
-
-      const duration = 3000 + Math.random() * 2000;
-      el.animate(
-        [
-          { transform: el.style.transform, top: '-10px' },
-          { transform: el.style.transform, top: `${60 + Math.random() * 80}vh` }
-        ],
-        { duration, iterations: 1, easing: 'cubic-bezier(.2,.8,.2,1)' }
-      );
-
-      setTimeout(() => el.remove(), 3500);
-    }
-
-    setTimeout(() => conf.classList.add('hidden'), 3800);
-  }
-
-  function showCelebrateModal() {
-    const keep = confirm('Congrats, you crafty thing you!\nHow do you want to celebrate?\nPress OK to "Share my craft" or Cancel to "Keep crafting".');
-    if (keep) {
-      alert('Share flow will be implemented later.');
-    }
-  }
-
-  function showResultFor(data) {
-    if (result) result.classList.remove('hidden');
-    if (wizard) wizard.classList.add('hidden');
-    smoothScrollTo(result);
-
-    const choice = data.crafts && data.crafts.length
-      ? data.crafts[Math.floor(Math.random() * data.crafts.length)]
-      : crafts[Math.floor(Math.random() * crafts.length)];
-
-    const title = `Try: ${generateCraftSuggestion(choice)}`;
-    const resultTitle = document.getElementById('result-title');
-    if (resultTitle) resultTitle.textContent = title;
-
-    const tags = [data.time || 'Any time']
-      .concat(data.crafts.length ? data.crafts : [])
-      .concat(data.methods.length ? data.methods : []);
-
-    const tagWrap = document.getElementById('result-tags');
-    if (tagWrap) {
-      tagWrap.innerHTML = '';
-      tags.forEach((tag) => {
-        const chip = document.createElement('span');
-        chip.className = 'tag';
-        chip.textContent = tag;
-        tagWrap.appendChild(chip);
-      });
-    }
-
-    const desc = document.getElementById('result-desc');
-    if (desc) {
-      desc.textContent = `We suggest ${choice.toLowerCase()} based on your choices. This suggestion is tailored to ${data.time || 'your availability'} and preferred learning methods.`;
-    }
-
-    const resourceList = document.getElementById('resource-list');
-    if (resourceList) {
-      resourceList.innerHTML = '';
-
-      const overview = document.createElement('div');
-      overview.innerHTML = `<h4>Overview</h4><p>Quick intro to ${choice.toLowerCase()}.</p>`;
-      resourceList.appendChild(overview);
-
-      if (data.methods.includes('Video tutorial') || data.methods.length === 0) {
-        const video = document.createElement('div');
-        video.innerHTML = `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(`${choice} tutorial`)}">Video tutorial for ${choice}</a>`;
-        resourceList.appendChild(video);
-      }
-
-      if (data.methods.includes('Photos or diagrams') || data.methods.length === 0) {
-        const photos = document.createElement('div');
-        photos.innerHTML = `<a href="https://www.pinterest.com/search/pins/?q=${encodeURIComponent(choice)}">Image references on Pinterest</a>`;
-        resourceList.appendChild(photos);
-      }
-
-      const buy = document.createElement('div');
-      buy.innerHTML = `<a href="https://www.google.com/search?q=${encodeURIComponent(`${choice} beginner supplies`)}">Where to buy beginner supplies for ${choice}</a>`;
-      resourceList.appendChild(buy);
-
-      const tips = document.createElement('div');
-      tips.innerHTML = `<h4>Tips</h4><p>${generateTips(choice, data.exp[choice] || 'Beginner')}</p>`;
-      resourceList.appendChild(tips);
-    }
-
-    const shuffle = document.getElementById('shuffle');
-    if (shuffle) {
-      shuffle.onclick = (event) => {
-        event.preventDefault();
-        showResultFor(data);
-      };
-    }
-
-    const craftedBtn = document.getElementById('crafted-btn');
-    if (craftedBtn) {
-      craftedBtn.onclick = () => {
-        runConfetti();
-        setTimeout(showCelebrateModal, 600);
-      };
-    }
-  }
-
-  if (submitBtn) {
-    submitBtn.addEventListener('click', () => {
-      const timeInput = document.querySelector('input[name=time]:checked');
-      const checkedCrafts = Array.from(document.querySelectorAll('#craft-list input[type=checkbox]:checked')).map((item) => item.value);
-      const checkedMethods = Array.from(document.querySelectorAll('input[name=method]:checked')).map((item) => item.value);
-
-      const data = {
-        time: timeInput ? timeInput.value : '',
-        crafts: checkedCrafts,
-        exp: {},
-        promptSame: !!document.getElementById('prompt-same')?.checked,
-        methods: checkedMethods
-      };
-
-      checkedCrafts.forEach((craft) => {
-        const expInput = document.querySelector(`input[name=exp-${craft}]:checked`);
-        data.exp[craft] = expInput ? expInput.value : 'Beginner';
+        pills.appendChild(pill);
       });
 
-      showResultFor(data);
+      expWrap.appendChild(pills);
+      item.appendChild(expWrap);
+    }
+
+    list.appendChild(item);
+  });
+
+  clear.classList.toggle("hidden", appState.wizard.selectedCrafts.length === 0);
+}
+
+function renderLearningOptions() {
+  const wrap = document.getElementById("learning-options");
+  if (!wrap) return;
+
+  wrap.innerHTML = "";
+
+  LEARNING_OPTIONS.forEach((option) => {
+    const selected = appState.wizard.learningPreferences.includes(option);
+    const row = document.createElement("label");
+    row.className = `option-row learn ${selected ? "active" : ""}`;
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = selected;
+    input.addEventListener("change", () => {
+      toggleLearningPreference(option);
+      renderLearningOptions();
+    });
+
+    const text = document.createElement("span");
+    text.className = "option-text";
+    text.textContent = option;
+
+    row.appendChild(input);
+    row.appendChild(text);
+    wrap.appendChild(row);
+  });
+}
+
+function renderRepeatToggle() {
+  const toggle = document.getElementById("repeat-toggle");
+  const yesLabel = document.getElementById("toggle-yes");
+  const noLabel = document.getElementById("toggle-no");
+
+  if (!toggle || !yesLabel || !noLabel) return;
+
+  const enabled = appState.wizard.repeatCraft;
+  toggle.classList.toggle("off", !enabled);
+  yesLabel.classList.toggle("active", enabled);
+  noLabel.classList.toggle("active", !enabled);
+}
+
+function resetResultSupplyState() {
+  appState.result.supplyPreferences = [];
+  appState.result.zipCode = "";
+  appState.result.showSupplyLinks = false;
+}
+
+function randomSuggestion() {
+  const index = Math.floor(Math.random() * CRAFT_SUGGESTIONS.length);
+  appState.result.currentSuggestion = CRAFT_SUGGESTIONS[index];
+}
+
+function renderResultTags() {
+  const tags = document.getElementById("result-tags");
+  if (!tags) return;
+
+  tags.innerHTML = "";
+
+  if (appState.wizard.timeCommitment) {
+    const tag = document.createElement("span");
+    tag.className = "tag time";
+    tag.textContent = appState.wizard.timeCommitment;
+    tags.appendChild(tag);
+  }
+
+  appState.wizard.selectedCrafts.forEach((craft) => {
+    const tag = document.createElement("span");
+    tag.className = "tag craft";
+    tag.textContent = `${craft.name} - ${craft.level}`;
+    tags.appendChild(tag);
+  });
+
+  appState.wizard.learningPreferences.forEach((pref) => {
+    const tag = document.createElement("span");
+    tag.className = "tag learn";
+    tag.textContent = pref;
+    tags.appendChild(tag);
+  });
+}
+
+function renderResources() {
+  const wrap = document.getElementById("result-resources");
+  if (!wrap) return;
+
+  wrap.innerHTML = "";
+
+  appState.result.currentSuggestion.resources.forEach((resource) => {
+    if (resource.type === "diagram" && resource.imageUrl) {
+      const container = document.createElement("div");
+      container.className = "resource-diagram";
+
+      const title = document.createElement("p");
+      title.textContent = resource.title;
+
+      const img = document.createElement("img");
+      img.src = resource.imageUrl;
+      img.alt = resource.title;
+
+      container.appendChild(title);
+      container.appendChild(img);
+      wrap.appendChild(container);
+      return;
+    }
+
+    const link = document.createElement("a");
+    link.className = "resource-link";
+    link.href = resource.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    const left = document.createElement("div");
+    const title = document.createElement("div");
+    title.textContent = resource.title;
+    title.className = "resource-link-title";
+
+    const type = document.createElement("div");
+    type.textContent = resource.type;
+    type.className = "resource-type";
+
+    left.appendChild(title);
+    left.appendChild(type);
+
+    const arrow = document.createElement("div");
+    arrow.className = "resource-arrow";
+    arrow.textContent = "→";
+
+    link.appendChild(left);
+    link.appendChild(arrow);
+    wrap.appendChild(link);
+  });
+}
+
+function renderSuppliesList() {
+  const list = document.getElementById("result-supplies-list");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  appState.result.currentSuggestion.suppliesList.forEach((itemText) => {
+    const item = document.createElement("li");
+    item.textContent = itemText;
+    list.appendChild(item);
+  });
+}
+
+function toggleShopPreference(id) {
+  if (appState.result.supplyPreferences.includes(id)) {
+    appState.result.supplyPreferences = appState.result.supplyPreferences.filter((value) => value !== id);
+  } else {
+    appState.result.supplyPreferences.push(id);
+  }
+
+  appState.result.showSupplyLinks = false;
+  renderShopOptions();
+  renderSupplyLinks();
+}
+
+function renderShopOptions() {
+  const wrap = document.getElementById("shop-options");
+  const zipWrap = document.getElementById("zip-wrap");
+  const zipInput = document.getElementById("zip-input");
+  const findButton = document.getElementById("find-supplies");
+
+  if (!wrap || !zipWrap || !zipInput || !findButton) return;
+
+  wrap.innerHTML = "";
+
+  SHOP_OPTIONS.forEach((option) => {
+    const selected = appState.result.supplyPreferences.includes(option.id);
+
+    const row = document.createElement("label");
+    row.className = `option-row shop ${selected ? "active" : ""}`;
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = selected;
+    input.addEventListener("change", () => toggleShopPreference(option.id));
+
+    const text = document.createElement("span");
+    text.className = "option-text";
+    text.textContent = option.label;
+
+    row.appendChild(input);
+    row.appendChild(text);
+    wrap.appendChild(row);
+  });
+
+  const hasLocal = appState.result.supplyPreferences.includes("local");
+  zipWrap.classList.toggle("hidden", !hasLocal);
+
+  if (hasLocal) {
+    zipInput.value = appState.result.zipCode;
+  }
+
+  findButton.classList.toggle("hidden", appState.result.supplyPreferences.length === 0);
+}
+
+function renderSupplyLinks() {
+  const wrapper = document.getElementById("supply-links-wrap");
+  const list = document.getElementById("supply-links");
+
+  if (!wrapper || !list) return;
+
+  if (!appState.result.showSupplyLinks) {
+    wrapper.classList.add("hidden");
+    list.innerHTML = "";
+    return;
+  }
+
+  wrapper.classList.remove("hidden");
+  list.innerHTML = "";
+
+  appState.result.currentSuggestion.supplies.forEach((supply) => {
+    const block = document.createElement("div");
+    const name = document.createElement("p");
+    name.className = "supply-item-name";
+    name.textContent = supply.item;
+
+    const row = document.createElement("div");
+    row.className = "supply-link-row";
+
+    if (appState.result.supplyPreferences.includes("amazon")) {
+      const link = document.createElement("a");
+      link.className = "supply-link amazon";
+      link.href = supply.amazon;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "View on Amazon";
+      row.appendChild(link);
+    }
+
+    if (appState.result.supplyPreferences.includes("michaels")) {
+      const link = document.createElement("a");
+      link.className = "supply-link michaels";
+      link.href = supply.michaels;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "View on Michaels";
+      row.appendChild(link);
+    }
+
+    if (appState.result.supplyPreferences.includes("hobbylobby")) {
+      const link = document.createElement("a");
+      link.className = "supply-link hobbylobby";
+      link.href = supply.hobbylobby;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "View on Hobby Lobby";
+      row.appendChild(link);
+    }
+
+    if (appState.result.supplyPreferences.includes("local") && appState.result.zipCode.trim()) {
+      const link = document.createElement("a");
+      link.className = "supply-link local";
+      link.href = `https://www.google.com/maps/search/craft+stores+near+${encodeURIComponent(appState.result.zipCode.trim())}`;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Find Local Stores";
+      row.appendChild(link);
+    }
+
+    block.appendChild(name);
+    block.appendChild(row);
+    list.appendChild(block);
+  });
+}
+
+function renderTips() {
+  const list = document.getElementById("result-tips");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  appState.result.currentSuggestion.tips.forEach((tip) => {
+    const item = document.createElement("li");
+    item.textContent = tip;
+    list.appendChild(item);
+  });
+}
+
+function renderResultPage() {
+  const headline = document.getElementById("result-craft-name");
+  const desc = document.getElementById("result-description");
+  const why = document.getElementById("result-why");
+  const overview = document.getElementById("result-overview");
+
+  if (!headline || !desc || !why || !overview) return;
+
+  headline.textContent = `${appState.result.currentSuggestion.name}!`;
+  desc.textContent = appState.result.currentSuggestion.description;
+  why.textContent = appState.result.currentSuggestion.why;
+  overview.textContent = appState.result.currentSuggestion.overview;
+
+  renderResultTags();
+  renderResources();
+  renderSuppliesList();
+  renderShopOptions();
+  renderSupplyLinks();
+  renderTips();
+}
+
+function runConfetti() {
+  const layer = document.getElementById("confetti-layer");
+  if (!layer) return;
+
+  const emojis = ["🧵", "✂️", "🎨", "🖌️", "🧶", "📍", "✨"];
+  layer.innerHTML = "";
+  layer.classList.remove("hidden");
+
+  for (let i = 0; i < 50; i += 1) {
+    const piece = document.createElement("div");
+    piece.className = "confetti-item";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.animationDuration = `${2 + Math.random() * 2}s`;
+    piece.style.animationDelay = `${Math.random() * 0.5}s`;
+    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    layer.appendChild(piece);
+  }
+
+  setTimeout(() => {
+    layer.classList.add("hidden");
+    layer.innerHTML = "";
+  }, 4500);
+}
+
+function openCelebrateModal() {
+  const modal = document.getElementById("celebrate-modal");
+  if (!modal) return;
+  modal.classList.remove("hidden");
+}
+
+function closeCelebrateModal() {
+  const modal = document.getElementById("celebrate-modal");
+  if (!modal) return;
+  modal.classList.add("hidden");
+}
+
+function wireHome() {
+  const scrollButton = document.getElementById("scroll-to-choices");
+  const choicesSection = document.getElementById("choices-section");
+  const inspoButton = document.getElementById("btn-inspo");
+  const wizardButton = document.getElementById("btn-wizard");
+
+  if (scrollButton && choicesSection) {
+    scrollButton.addEventListener("click", () => {
+      choicesSection.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
+
+  if (inspoButton) {
+    inspoButton.addEventListener("click", () => showPage("inspiration"));
+  }
+
+  if (wizardButton) {
+    wizardButton.addEventListener("click", () => showPage("wizard"));
+  }
+}
+
+function wireInspiration() {
+  const back = document.getElementById("inspo-back-home");
+  const add = document.getElementById("inspo-add-btn");
+
+  if (back) {
+    back.addEventListener("click", () => showPage("home"));
+  }
+
+  if (add) {
+    add.addEventListener("click", () => {
+      alert("Add yours flow will be implemented next.");
+    });
+  }
+}
+
+function wireWizard() {
+  const back = document.getElementById("wizard-back-home");
+  const search = document.getElementById("wizard-craft-search");
+  const clear = document.getElementById("wizard-clear-crafts");
+  const toggle = document.getElementById("repeat-toggle");
+  const submit = document.getElementById("wizard-submit");
+
+  if (back) {
+    back.addEventListener("click", () => showPage("home"));
+  }
+
+  if (search) {
+    search.addEventListener("input", (event) => {
+      appState.wizard.search = event.target.value;
+      renderCraftList();
+    });
+  }
+
+  if (clear) {
+    clear.addEventListener("click", () => {
+      appState.wizard.selectedCrafts = [];
+      renderCraftList();
+      renderResultTags();
+    });
+  }
+
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      appState.wizard.repeatCraft = !appState.wizard.repeatCraft;
+      renderRepeatToggle();
+    });
+  }
+
+  if (submit) {
+    submit.addEventListener("click", () => {
+      if (!appState.wizard.timeCommitment) {
+        alert("Please choose how much time you have to craft.");
+        return;
+      }
+
+      randomSuggestion();
+      resetResultSupplyState();
+      renderResultPage();
+      showPage("result");
+    });
+  }
+}
+
+function wireResult() {
+  const back = document.getElementById("result-back-wizard");
+  const shuffle = document.getElementById("result-shuffle");
+  const zip = document.getElementById("zip-input");
+  const find = document.getElementById("find-supplies");
+  const crafted = document.getElementById("result-crafted-btn");
+  const modal = document.getElementById("celebrate-modal");
+  const share = document.getElementById("share-craft-btn");
+  const keep = document.getElementById("keep-crafting-btn");
+
+  if (back) {
+    back.addEventListener("click", () => showPage("wizard"));
+  }
+
+  if (shuffle) {
+    shuffle.addEventListener("click", () => {
+      randomSuggestion();
+      resetResultSupplyState();
+      renderResultPage();
+    });
+  }
+
+  if (zip) {
+    zip.addEventListener("input", (event) => {
+      appState.result.zipCode = event.target.value;
+      if (appState.result.showSupplyLinks) {
+        renderSupplyLinks();
+      }
+    });
+  }
+
+  if (find) {
+    find.addEventListener("click", () => {
+      appState.result.showSupplyLinks = true;
+      renderSupplyLinks();
+    });
+  }
+
+  if (crafted) {
+    crafted.addEventListener("click", () => {
+      runConfetti();
+      setTimeout(openCelebrateModal, 500);
+    });
+  }
+
+  if (modal) {
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeCelebrateModal();
+      }
+    });
+  }
+
+  if (share) {
+    share.addEventListener("click", () => {
+      alert("Share functionality would go here!");
+    });
+  }
+
+  if (keep) {
+    keep.addEventListener("click", () => {
+      closeCelebrateModal();
+      randomSuggestion();
+      resetResultSupplyState();
+      renderResultPage();
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initBackgroundCanvas();
+  buildInspirationGrid();
+  wireHome();
+  wireInspiration();
+  wireWizard();
+  wireResult();
+
+  renderTimeOptions();
+  renderCraftList();
+  renderLearningOptions();
+  renderRepeatToggle();
+  renderResultPage();
+
+  initializePageFromHash();
+
+  window.addEventListener("hashchange", initializePageFromHash);
+  window.addEventListener("scroll", updateChoicesMotion, { passive: true });
+  updateChoicesMotion();
 });

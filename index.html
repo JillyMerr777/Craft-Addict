@@ -11,119 +11,185 @@
   <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
 
   <main class="app-shell">
-    <section id="hero" class="hero-section">
-      <div class="top-auth">
-        <span class="auth-text">Already craft with us?</span>
-        <button type="button" class="sign-in-btn">Sign in</button>
-      </div>
+    <section id="page-home" class="page">
+      <section class="hero-section">
+        <div class="top-auth">
+          <span class="auth-text">Already craft with us?</span>
+          <button type="button" class="sign-in-btn">Sign in</button>
+        </div>
 
-      <div class="hero-center">
-        <img id="hero-logo" class="hero-logo" src="Logo.png" alt="Craft Addict Logo" />
-        <h1>CRAFT ADDICT</h1>
-        <p class="subtitle">Where you can find your next craft fix</p>
-        <button id="scroll-to-choices" class="down-arrow-btn" aria-label="Scroll to choices">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 5v14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-            <path d="M19 12l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+        <div class="hero-center">
+          <img id="hero-logo" class="hero-logo" src="Logo.png" alt="Craft Addict Logo" />
+          <h1>CRAFT ADDICT</h1>
+          <p class="subtitle">Where you can find your next craft fix</p>
+          <button id="scroll-to-choices" class="down-arrow-btn" aria-label="Scroll to choices">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 5v14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M19 12l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section id="choices-section" class="choices-section">
+        <div id="choices-content" class="choices-content">
+          <h2>What are you looking for?</h2>
+          <div class="choices">
+            <button id="btn-inspo" class="choice-btn choice-btn-inspo">Craft inspiration</button>
+            <button id="btn-wizard" class="choice-btn choice-btn-wizard">Tell me what to craft</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-inspiration" class="page hidden page-wrap">
+      <div class="page-inner inspiration-inner">
+        <button id="inspo-back-home" class="back-btn" type="button" aria-label="Back to Home">
+          <span class="icon">←</span>
+          <span>Back to Home</span>
         </button>
+
+        <h1 class="page-title">Get inspired</h1>
+        <p class="page-subtitle">Browse projects from fellow craft addicts</p>
+
+        <div id="inspo-grid" class="inspo-grid" aria-live="polite"></div>
       </div>
+
+      <button id="inspo-add-btn" class="floating-add-btn" type="button" aria-label="Add yours">
+        <span class="icon">＋</span>
+        <span>Add yours</span>
+      </button>
     </section>
 
-    <section id="choices-section" class="choices-section">
-      <div id="choices-content" class="choices-content">
-        <h2>What are you looking for?</h2>
-        <div class="choices">
-          <button id="btn-inspo" class="choice-btn choice-btn-inspo">Craft inspiration</button>
-          <button id="btn-wizard" class="choice-btn choice-btn-wizard">Tell me what to craft</button>
-        </div>
-      </div>
-    </section>
+    <section id="page-wizard" class="page hidden page-wrap">
+      <div class="page-inner wizard-inner-page">
+        <button id="wizard-back-home" class="back-btn" type="button" aria-label="Back to Home">
+          <span class="icon">←</span>
+          <span>Back to Home</span>
+        </button>
 
-    <section id="inspo" class="section hidden">
-      <div class="inspo-inner">
-        <h2>Get inspired</h2>
-        <div id="inspo-loader" class="loader" aria-hidden="true">
-          <div class="yarn" role="img" aria-label="Loading inspiration"></div>
-          <div class="loader-text" aria-hidden="true">Rolling up inspiration…</div>
-        </div>
-        <div id="inspo-grid" class="grid"></div>
-      </div>
-    </section>
+        <div class="wizard-card">
+          <section class="wizard-block">
+            <h2 class="wizard-title">How much time do you have to craft?</h2>
+            <div id="time-options" class="stack-list"></div>
+          </section>
 
-    <section id="wizard" class="section hidden">
-      <div class="wizard-inner">
-        <h2>Tell us a bit about you</h2>
-        <form id="wizard-form">
-          <div class="step" data-step="1">
-            <label class="label">How much time do you have to dedicate to this craft?</label>
-            <div class="radios">
-              <label><input type="radio" name="time" value="30 min"> 30 min</label>
-              <label><input type="radio" name="time" value="1 hour"> 1 hour</label>
-              <label><input type="radio" name="time" value="4 hours"> 4 hours</label>
-              <label><input type="radio" name="time" value="multiple days"> Multiple days</label>
+          <section class="wizard-block">
+            <h2 class="wizard-title">Tell us what crafts you've already tried</h2>
+            <div class="search-wrap">
+              <span class="search-icon">⌕</span>
+              <input id="wizard-craft-search" class="search-input" type="text" placeholder="Search crafts..." />
             </div>
-          </div>
+            <div id="wizard-craft-list" class="craft-list-grid"></div>
+            <button id="wizard-clear-crafts" class="clear-btn hidden" type="button">
+              <span class="icon">✕</span>
+              <span>Clear all selections</span>
+            </button>
+          </section>
 
-          <div class="step" data-step="2">
-            <label class="label">Tell us what crafts you've already tried</label>
-            <input id="craft-search" placeholder="Search crafts" class="search" />
-            <div id="craft-list" class="craft-list"></div>
-          </div>
-
-          <div id="experience-wrap" class="step hidden" data-step="3">
-            <label class="label">For selected crafts, choose your experience level</label>
-            <div id="experience-list"></div>
-            <div class="toggle-row">
-              <span>Do you want to be prompted by a craft you've already tried before?</span>
-              <label class="switch"><input type="checkbox" id="prompt-same"><span class="slider"></span></label>
-              <span class="toggle-label">No / Yes</span>
+          <section class="wizard-block">
+            <div class="toggle-box">
+              <span class="toggle-question">Are you okay with trying a craft you've made before?</span>
+              <div class="toggle-control">
+                <span id="toggle-no" class="toggle-label">No</span>
+                <button id="repeat-toggle" class="toggle-pill" type="button" aria-label="Toggle repeat crafts">
+                  <span id="repeat-knob" class="toggle-knob"></span>
+                </button>
+                <span id="toggle-yes" class="toggle-label">Yes</span>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <div class="step" data-step="4">
-            <label class="label">What is your preferred method of learning? (select all that apply)</label>
-            <div class="checkboxes">
-              <label><input type="checkbox" name="method" value="Written instructions"> Written instructions</label>
-              <label><input type="checkbox" name="method" value="Photos or diagrams"> Photos or diagrams</label>
-              <label><input type="checkbox" name="method" value="Video tutorial"> Video tutorial</label>
-              <label><input type="checkbox" name="method" value="Audio descriptions"> Audio descriptions</label>
-              <label><input type="checkbox" name="method" value="In-person instructions"> In-person instructions</label>
-            </div>
-          </div>
+          <section class="wizard-block">
+            <h2 class="wizard-title">What is your preferred method of learning?</h2>
+            <p class="wizard-help">Select all that apply.</p>
+            <div id="learning-options" class="stack-list"></div>
+          </section>
 
-          <div class="form-actions">
-            <button type="button" id="prev-step" class="btn small hidden">Back</button>
-            <button type="button" id="next-step" class="btn small">Next</button>
-            <button type="button" id="submit-wizard" class="btn primary hidden">Let's craft</button>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <section id="result" class="section hidden">
-      <div class="result-inner">
-        <h2>Your latest craft fix...</h2>
-        <div id="result-title" class="result-title">—</div>
-        <div id="result-tags" class="tags"></div>
-        <a href="#" id="shuffle">Shuffle craft</a>
-        <p id="result-desc"></p>
-
-        <div id="resources">
-          <h3>Resources</h3>
-          <div id="resource-list"></div>
-        </div>
-
-        <div class="completion">
-          <small>When you've completed your craft, let us know.</small>
-          <button id="crafted-btn" class="btn primary">I crafted this!</button>
+          <button id="wizard-submit" class="wizard-submit" type="button">Let's craft</button>
         </div>
       </div>
     </section>
 
+    <section id="page-result" class="page hidden page-wrap">
+      <div class="page-inner result-inner-page">
+        <button id="result-back-wizard" class="back-btn" type="button" aria-label="Back to Wizard">
+          <span class="icon">←</span>
+          <span>Back to Wizard</span>
+        </button>
+
+        <div class="result-head">
+          <h1 class="result-headline">Your latest craft fix...</h1>
+          <h2 id="result-craft-name" class="result-craft-name">Knit a Cozy Scarf!</h2>
+          <div id="result-tags" class="tags"></div>
+          <button id="result-shuffle" class="text-action" type="button">
+            <span class="icon">⤨</span>
+            <span>Shuffle craft</span>
+          </button>
+        </div>
+
+        <div class="result-card">
+          <section class="result-section">
+            <p id="result-description" class="result-paragraph"></p>
+            <p class="result-why"><strong>Why this craft?</strong> <span id="result-why"></span></p>
+          </section>
+
+          <section class="result-section">
+            <h3>Overview</h3>
+            <p id="result-overview" class="result-paragraph"></p>
+          </section>
+
+          <section class="result-section">
+            <h3>Learning Resources</h3>
+            <div id="result-resources" class="resource-list"></div>
+          </section>
+
+          <section class="result-section">
+            <h3>Supplies Needed</h3>
+            <ul id="result-supplies-list" class="bullet-list"></ul>
+
+            <div class="shop-box">
+              <h4>How do you like to shop for your supplies?</h4>
+              <div id="shop-options" class="stack-list tight"></div>
+              <div id="zip-wrap" class="zip-wrap hidden">
+                <span class="zip-icon">⌖</span>
+                <input id="zip-input" class="zip-input" type="text" placeholder="Enter your zip code" />
+              </div>
+              <button id="find-supplies" class="find-supplies-btn hidden" type="button">Find supplies</button>
+            </div>
+
+            <div id="supply-links-wrap" class="supply-links-wrap hidden">
+              <h4>Recommended Supply Links</h4>
+              <div id="supply-links" class="supply-links"></div>
+            </div>
+          </section>
+
+          <section class="result-section">
+            <h3>Beginner Tips</h3>
+            <ul id="result-tips" class="bullet-list"></ul>
+          </section>
+        </div>
+
+        <div class="crafted-wrap">
+          <p>When you've completed your craft, let us know.</p>
+          <button id="result-crafted-btn" class="crafted-btn" type="button">I crafted this!</button>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <div id="confetti" class="confetti hidden"></div>
+  <div id="confetti-layer" class="confetti-layer hidden" aria-hidden="true"></div>
+
+  <div id="celebrate-modal" class="modal-layer hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <h2 id="modal-title">Congrats, you crafty thing you!</h2>
+      <p>How do you want to celebrate?</p>
+      <div class="modal-actions">
+        <button id="share-craft-btn" class="modal-btn share" type="button">Share my craft</button>
+        <button id="keep-crafting-btn" class="modal-btn keep" type="button">Keep crafting</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js" defer></script>
 </body>
