@@ -1,6 +1,6 @@
 # Craft Addict — basic demo
 
-Simple static demo with a mid-century / 70s inspired aesthetic. Files:
+Simple static demo with a mid-century / 70s inspired aesthetic. The site will act as inspiration for crafty folks looking to start or share a project. Files:
 
 - `index.html` — main page
 - `styles.css` — styling
