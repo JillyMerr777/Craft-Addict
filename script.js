@@ -449,7 +449,7 @@ function buildFallbackTutorial(query) {
     title: `How to make ${appState.result.currentSuggestion.name} for beginners`,
     url: buildYouTubeSearchUrl(query),
     thumbnailUrl: "",
-    message: "Showing a YouTube search fallback. Add window.CRAFT_ADDICT_YOUTUBE_API_KEY for exact video matches."
+    message: ""
   };
 }
 
@@ -581,7 +581,7 @@ async function requestYoutubeTutorialFromApi(query) {
     title: video?.snippet?.title || `How to make ${appState.result.currentSuggestion.name} for beginners`,
     url: `https://www.youtube.com/watch?v=${videoId}`,
     thumbnailUrl,
-    message: "Suggested tutorial from YouTube."
+    message: ""
   };
 }
 
@@ -711,13 +711,13 @@ async function refreshSkillEstimate() {
       appState.result.skillEstimate = {
         ...apiEstimate,
         status: "ready",
-        message: "Live AI estimate generated from your craft profile."
+        message: ""
       };
     } else {
       appState.result.skillEstimate = {
         ...generateSkillEstimateFallback(payload),
         status: "ready",
-        message: "Smart estimate shown. Set window.CRAFT_ADDICT_SKILL_API_URL for a live AI API response."
+        message: ""
       };
     }
   } catch (error) {
@@ -727,7 +727,7 @@ async function refreshSkillEstimate() {
     appState.result.skillEstimate = {
       ...generateSkillEstimateFallback(payload),
       status: "ready",
-      message: "AI service is unavailable right now. Showing a smart estimate instead."
+      message: ""
     };
   }
 
@@ -1155,6 +1155,10 @@ function renderResources() {
   wrap.innerHTML = "";
 
   appState.result.currentSuggestion.resources.forEach((resource) => {
+    if (shouldShowVideoTutorial() && resource.type === "video") {
+      return;
+    }
+
     if (resource.type === "diagram" && resource.imageUrl) {
       const container = document.createElement("div");
       container.className = "resource-diagram";
