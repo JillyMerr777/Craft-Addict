@@ -352,7 +352,15 @@ const appState = {
       status: "idle",
       message: "Fill out the wizard to generate an estimate."
     },
-    skillEstimateRequestId: 0
+    skillEstimateRequestId: 0,
+    youtubeTutorial: {
+      status: "idle",
+      title: "",
+      url: "",
+      thumbnailUrl: "",
+      message: ""
+    },
+    youtubeTutorialRequestId: 0
   }
 };
 
@@ -419,6 +427,29 @@ function buildSkillEstimatorPayload() {
     craft: appState.result.currentSuggestion.name,
     userExperience: appState.wizard.selectedCrafts.map((craft) => craft.name),
     availableHours
+  };
+}
+
+function shouldShowVideoTutorial() {
+  return appState.wizard.learningPreferences.includes("Video tutorial");
+}
+
+function buildTutorialQuery() {
+  const craft = appState.result.currentSuggestion.name;
+  return `${craft} tutorial for beginners`;
+}
+
+function buildYouTubeSearchUrl(query) {
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+}
+
+function buildFallbackTutorial(query) {
+  return {
+    status: "ready",
+    title: `How to make ${appState.result.currentSuggestion.name} for beginners`,
+    url: buildYouTubeSearchUrl(query),
+    thumbnailUrl: "",
+    message: "Showing a YouTube search fallback. Add window.CRAFT_ADDICT_YOUTUBE_API_KEY for exact video matches."
   };
 }
 
@@ -514,6 +545,129 @@ async function requestSkillEstimateFromApi(payload) {
 
   const body = await response.json();
   return normalizeSkillEstimatorResponse(body);
+}
+
+async function requestYoutubeTutorialFromApi(query) {
+  const apiKey = typeof window.CRAFT_ADDICT_YOUTUBE_API_KEY === "string" ? window.CRAFT_ADDICT_YOUTUBE_API_KEY.trim() : "";
+  if (!apiKey) return null;
+
+  const params = new URLSearchParams({
+    part: "snippet",
+    q: query,
+    maxResults: "1",
+    type: "video",
+    key: apiKey
+  });
+
+  const url = `https://www.googleapis.com/youtube/v3/search?${params.toString()}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`YouTube API failed with status ${response.status}`);
+  }
+
+  const body = await response.json();
+  const video = Array.isArray(body.items) ? body.items[0] : null;
+  const videoId = video?.id?.videoId;
+  if (!videoId) return null;
+
+  const thumbnailUrl =
+    video?.snippet?.thumbnails?.high?.url ||
+    video?.snippet?.thumbnails?.medium?.url ||
+    video?.snippet?.thumbnails?.default?.url ||
+    "";
+
+  return {
+    status: "ready",
+    title: video?.snippet?.title || `How to make ${appState.result.currentSuggestion.name} for beginners`,
+    url: `https://www.youtube.com/watch?v=${videoId}`,
+    thumbnailUrl,
+    message: "Suggested tutorial from YouTube."
+  };
+}
+
+function renderYoutubeTutorial() {
+  const wrap = document.getElementById("result-youtube-tutorial");
+  if (!wrap) return;
+
+  if (!shouldShowVideoTutorial()) {
+    wrap.classList.add("hidden");
+    wrap.innerHTML = "";
+    return;
+  }
+
+  const tutorial = appState.result.youtubeTutorial;
+  wrap.classList.remove("hidden");
+
+  if (tutorial.status === "loading") {
+    wrap.innerHTML = `
+      <div class="youtube-tutorial-row">
+        <div class="youtube-thumb-fallback">Loading...</div>
+        <div class="youtube-meta">
+          <p class="youtube-label">Suggested YouTube Tutorial</p>
+          <p class="youtube-title">Finding a tutorial for ${appState.result.currentSuggestion.name}</p>
+          <p class="youtube-status">Pulling the most relevant beginner-friendly result...</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const thumbMarkup = tutorial.thumbnailUrl
+    ? `<img class="youtube-thumb" src="${tutorial.thumbnailUrl}" alt="Tutorial thumbnail for ${appState.result.currentSuggestion.name}" />`
+    : `<div class="youtube-thumb-fallback">YouTube</div>`;
+
+  wrap.innerHTML = `
+    <div class="youtube-tutorial-row">
+      ${thumbMarkup}
+      <div class="youtube-meta">
+        <p class="youtube-label">Suggested YouTube Tutorial</p>
+        <p class="youtube-title">${tutorial.title || `How to make ${appState.result.currentSuggestion.name} for beginners`}</p>
+        <p class="youtube-status">${tutorial.message || ""}</p>
+        <a class="youtube-watch-btn" href="${tutorial.url}" target="_blank" rel="noopener noreferrer">Watch Tutorial</a>
+      </div>
+    </div>
+  `;
+}
+
+async function refreshYoutubeTutorial() {
+  if (!shouldShowVideoTutorial()) {
+    appState.result.youtubeTutorial = {
+      status: "idle",
+      title: "",
+      url: "",
+      thumbnailUrl: "",
+      message: ""
+    };
+    renderYoutubeTutorial();
+    return;
+  }
+
+  const requestId = appState.result.youtubeTutorialRequestId + 1;
+  appState.result.youtubeTutorialRequestId = requestId;
+
+  appState.result.youtubeTutorial = {
+    status: "loading",
+    title: "",
+    url: "",
+    thumbnailUrl: "",
+    message: ""
+  };
+  renderYoutubeTutorial();
+
+  const query = buildTutorialQuery();
+
+  try {
+    const apiResult = await requestYoutubeTutorialFromApi(query);
+    if (requestId !== appState.result.youtubeTutorialRequestId) return;
+
+    appState.result.youtubeTutorial = apiResult || buildFallbackTutorial(query);
+  } catch (error) {
+    if (requestId !== appState.result.youtubeTutorialRequestId) return;
+    console.warn("YouTube tutorial lookup failed:", error);
+    appState.result.youtubeTutorial = buildFallbackTutorial(query);
+  }
+
+  renderYoutubeTutorial();
 }
 
 function renderSkillEstimator() {
@@ -1209,6 +1363,7 @@ function renderResultPage() {
 
   renderResultTags();
   renderResources();
+  renderYoutubeTutorial();
   renderSuppliesList();
   renderShopOptions();
   renderSupplyLinks();
@@ -1333,6 +1488,7 @@ function wireWizard() {
       renderResultPage();
       showPage("result");
       refreshSkillEstimate();
+      refreshYoutubeTutorial();
     });
   }
 }
@@ -1357,6 +1513,7 @@ function wireResult() {
       resetResultSupplyState();
       renderResultPage();
       refreshSkillEstimate();
+      refreshYoutubeTutorial();
     });
   }
 
@@ -1404,6 +1561,7 @@ function wireResult() {
       resetResultSupplyState();
       renderResultPage();
       refreshSkillEstimate();
+      refreshYoutubeTutorial();
     });
   }
 }
@@ -1426,6 +1584,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (appState.page === "result") {
     refreshSkillEstimate();
+    refreshYoutubeTutorial();
   }
 
   window.addEventListener("hashchange", initializePageFromHash);

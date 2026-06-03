@@ -40,3 +40,17 @@ Expected response payload:
 ```
 
 If no API URL is configured, the UI still shows a polished local estimate so the feature remains user-facing and functional.
+
+## YouTube Tutorial Integration
+
+If the user selects "Video tutorial" in the wizard, the result page automatically includes a suggested YouTube tutorial card with:
+
+- Tutorial thumbnail
+- Video title
+- Watch Tutorial button
+
+Set this global before `script.js` loads to use YouTube Data API v3:
+
+- `window.CRAFT_ADDICT_YOUTUBE_API_KEY`
+
+When no key is configured (or if the API fails), the app still shows a fallback tutorial card with a direct YouTube search link for the assigned craft.
