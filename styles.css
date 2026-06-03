@@ -660,6 +660,71 @@ h4 {
   color: var(--brand-orange);
 }
 
+.skill-estimator {
+  margin: 0 auto 18px;
+  max-width: 760px;
+  border: 2px solid var(--line-soft);
+  border-radius: 16px;
+  padding: 18px;
+  background: linear-gradient(180deg, #fff9f2 0%, #ffffff 100%);
+  text-align: left;
+}
+
+.skill-estimator-head h3 {
+  margin: 0 0 6px;
+  font-family: "Righteous", sans-serif;
+  font-size: 1.2rem;
+  color: var(--brand-teal);
+}
+
+.skill-estimator-head p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.skill-estimator-grid {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.skill-estimator-stat {
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--line-soft);
+}
+
+.skill-estimator-stat .label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.skill-estimator-stat .value {
+  display: block;
+  font-family: "Righteous", sans-serif;
+  font-size: 1.4rem;
+  color: var(--brand-orange);
+}
+
+.skill-estimator-status {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.skill-estimator.loading .skill-estimator-stat .value {
+  animation: estimatorPulse 0.9s ease-in-out infinite alternate;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -1054,6 +1119,15 @@ h4 {
   }
 }
 
+@keyframes estimatorPulse {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (min-width: 768px) {
   .choices {
     flex-direction: row;
@@ -1091,6 +1165,10 @@ h4 {
   .wizard-card,
   .result-card {
     padding: 22px;
+  }
+
+  .skill-estimator-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 
   .toggle-box {

@@ -344,7 +344,15 @@ const appState = {
     currentSuggestion: CRAFT_SUGGESTIONS[0],
     supplyPreferences: [],
     zipCode: "",
-    showSupplyLinks: false
+    showSupplyLinks: false,
+    skillEstimate: {
+      difficulty: "--",
+      completionProbability: "--",
+      estimatedTime: "--",
+      status: "idle",
+      message: "Fill out the wizard to generate an estimate."
+    },
+    skillEstimateRequestId: 0
   }
 };
 
@@ -367,6 +375,210 @@ const HASH_PAGE = {
   "#wizard": "wizard",
   "#craft-result": "result"
 };
+
+const TIME_COMMITMENT_HOURS = {
+  "30 min": 0.5,
+  "1 hour": 1,
+  "4 hours": 4,
+  "Multiple days": 8
+};
+
+function clampNumber(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function formatHours(hours) {
+  const rounded = Math.round(hours * 10) / 10;
+  return `${rounded} ${rounded === 1 ? "hour" : "hours"}`;
+}
+
+function normalizeEstimatedTime(value) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return formatHours(value);
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return "--";
+
+    const parsed = Number.parseFloat(trimmed);
+    if (Number.isFinite(parsed) && /hour|hr/i.test(trimmed)) {
+      return formatHours(parsed);
+    }
+
+    return trimmed;
+  }
+
+  return "--";
+}
+
+function buildSkillEstimatorPayload() {
+  const availableHours = TIME_COMMITMENT_HOURS[appState.wizard.timeCommitment] ?? 2;
+
+  return {
+    craft: appState.result.currentSuggestion.name,
+    userExperience: appState.wizard.selectedCrafts.map((craft) => craft.name),
+    availableHours
+  };
+}
+
+function normalizeSkillEstimatorResponse(raw) {
+  const candidates = [raw, raw?.data, raw?.result, raw?.estimate].filter(Boolean);
+
+  for (const item of candidates) {
+    const difficulty = item.difficulty ?? item.Difficulty;
+    const completionProbability =
+      item.completionProbability ??
+      item.completion_probability ??
+      item.completionChance ??
+      item["Completion Probability"];
+    const estimatedTime =
+      item.estimatedTime ??
+      item.estimated_time ??
+      item.timeEstimate ??
+      item["Estimated Time"];
+
+    if (difficulty && completionProbability && estimatedTime !== undefined) {
+      return {
+        difficulty: String(difficulty),
+        completionProbability: String(completionProbability),
+        estimatedTime: normalizeEstimatedTime(estimatedTime)
+      };
+    }
+  }
+
+  return null;
+}
+
+function generateSkillEstimateFallback(payload) {
+  const craftText = payload.craft.toLowerCase();
+  let baseDifficulty = 2;
+
+  if (/amigurumi|stained glass|pottery|quilting|resin|needle felting|wood/i.test(craftText)) {
+    baseDifficulty = 2.7;
+  } else if (/scarf|origami|paper quilling|scrapbooking/i.test(craftText)) {
+    baseDifficulty = 1.7;
+  } else if (/watercolor|macrame|embroidery|candle|jewelry/i.test(craftText)) {
+    baseDifficulty = 2.2;
+  }
+
+  const experienceBonus = Math.min(payload.userExperience.length, 4) * 0.22;
+  const adjustedDifficulty = clampNumber(baseDifficulty - experienceBonus, 1, 3);
+
+  let difficulty = "Medium";
+  if (adjustedDifficulty < 1.8) {
+    difficulty = "Low";
+  } else if (adjustedDifficulty > 2.45) {
+    difficulty = "High";
+  }
+
+  const estimatedHours = clampNumber(adjustedDifficulty * 1.2 + 0.5, 1, 6);
+  const confidence = payload.availableHours / estimatedHours + payload.userExperience.length * 0.12;
+
+  let completionProbability = "Medium";
+  if (confidence >= 1.35) {
+    completionProbability = "High";
+  } else if (confidence < 0.9) {
+    completionProbability = "Low";
+  }
+
+  return {
+    difficulty,
+    completionProbability,
+    estimatedTime: formatHours(estimatedHours)
+  };
+}
+
+async function requestSkillEstimateFromApi(payload) {
+  const apiUrl = typeof window.CRAFT_ADDICT_SKILL_API_URL === "string" ? window.CRAFT_ADDICT_SKILL_API_URL.trim() : "";
+  if (!apiUrl) return null;
+
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
+  const apiKey = typeof window.CRAFT_ADDICT_SKILL_API_KEY === "string" ? window.CRAFT_ADDICT_SKILL_API_KEY.trim() : "";
+  if (apiKey) {
+    headers.Authorization = `Bearer ${apiKey}`;
+  }
+
+  const response = await fetch(apiUrl, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    throw new Error(`Skill estimator API failed with status ${response.status}`);
+  }
+
+  const body = await response.json();
+  return normalizeSkillEstimatorResponse(body);
+}
+
+function renderSkillEstimator() {
+  const panel = document.getElementById("skill-estimator-panel");
+  const difficulty = document.getElementById("skill-difficulty");
+  const probability = document.getElementById("skill-completion-probability");
+  const estimatedTime = document.getElementById("skill-estimated-time");
+  const status = document.getElementById("skill-estimator-status");
+
+  if (!panel || !difficulty || !probability || !estimatedTime || !status) return;
+
+  const estimate = appState.result.skillEstimate;
+  difficulty.textContent = estimate.difficulty;
+  probability.textContent = estimate.completionProbability;
+  estimatedTime.textContent = estimate.estimatedTime;
+  status.textContent = estimate.message;
+
+  panel.classList.toggle("loading", estimate.status === "loading");
+}
+
+async function refreshSkillEstimate() {
+  const requestId = appState.result.skillEstimateRequestId + 1;
+  appState.result.skillEstimateRequestId = requestId;
+
+  appState.result.skillEstimate = {
+    difficulty: "...",
+    completionProbability: "...",
+    estimatedTime: "...",
+    status: "loading",
+    message: "Running AI estimate for your current craft selection..."
+  };
+  renderSkillEstimator();
+
+  const payload = buildSkillEstimatorPayload();
+
+  try {
+    const apiEstimate = await requestSkillEstimateFromApi(payload);
+    if (requestId !== appState.result.skillEstimateRequestId) return;
+
+    if (apiEstimate) {
+      appState.result.skillEstimate = {
+        ...apiEstimate,
+        status: "ready",
+        message: "Live AI estimate generated from your craft profile."
+      };
+    } else {
+      appState.result.skillEstimate = {
+        ...generateSkillEstimateFallback(payload),
+        status: "ready",
+        message: "Smart estimate shown. Set window.CRAFT_ADDICT_SKILL_API_URL for a live AI API response."
+      };
+    }
+  } catch (error) {
+    if (requestId !== appState.result.skillEstimateRequestId) return;
+
+    console.warn("Skill estimator API unavailable:", error);
+    appState.result.skillEstimate = {
+      ...generateSkillEstimateFallback(payload),
+      status: "ready",
+      message: "AI service is unavailable right now. Showing a smart estimate instead."
+    };
+  }
+
+  renderSkillEstimator();
+}
 
 function initBackgroundCanvas() {
   const canvas = document.getElementById("bg-canvas");
@@ -1001,6 +1213,7 @@ function renderResultPage() {
   renderShopOptions();
   renderSupplyLinks();
   renderTips();
+  renderSkillEstimator();
 }
 
 function runConfetti() {
@@ -1119,6 +1332,7 @@ function wireWizard() {
       resetResultSupplyState();
       renderResultPage();
       showPage("result");
+      refreshSkillEstimate();
     });
   }
 }
@@ -1142,6 +1356,7 @@ function wireResult() {
       randomSuggestion();
       resetResultSupplyState();
       renderResultPage();
+      refreshSkillEstimate();
     });
   }
 
@@ -1188,6 +1403,7 @@ function wireResult() {
       randomSuggestion();
       resetResultSupplyState();
       renderResultPage();
+      refreshSkillEstimate();
     });
   }
 }
@@ -1207,6 +1423,10 @@ document.addEventListener("DOMContentLoaded", () => {
   renderResultPage();
 
   initializePageFromHash();
+
+  if (appState.page === "result") {
+    refreshSkillEstimate();
+  }
 
   window.addEventListener("hashchange", initializePageFromHash);
   window.addEventListener("scroll", updateChoicesMotion, { passive: true });

@@ -121,6 +121,31 @@
         <div class="result-head">
           <h1 class="result-headline">Your latest craft fix...</h1>
           <h2 id="result-craft-name" class="result-craft-name">Knit a Cozy Scarf!</h2>
+
+          <div id="skill-estimator-panel" class="skill-estimator" aria-live="polite">
+            <div class="skill-estimator-head">
+              <h3>AI Skill Difficulty Estimator</h3>
+              <p>A quick estimate based on this craft, your past projects, and your available time.</p>
+            </div>
+
+            <div class="skill-estimator-grid">
+              <div class="skill-estimator-stat">
+                <span class="label">Difficulty</span>
+                <span id="skill-difficulty" class="value">--</span>
+              </div>
+              <div class="skill-estimator-stat">
+                <span class="label">Completion Probability</span>
+                <span id="skill-completion-probability" class="value">--</span>
+              </div>
+              <div class="skill-estimator-stat">
+                <span class="label">Estimated Time</span>
+                <span id="skill-estimated-time" class="value">--</span>
+              </div>
+            </div>
+
+            <p id="skill-estimator-status" class="skill-estimator-status">Fill out the wizard to generate an estimate.</p>
+          </div>
+
           <div id="result-tags" class="tags"></div>
           <button id="result-shuffle" class="text-action" type="button">
             <span class="icon">⤨</span>
