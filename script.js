@@ -453,6 +453,66 @@ function buildFallbackTutorial(query) {
   };
 }
 
+function parseIsoDurationToMinutes(isoDuration) {
+  if (!isoDuration || typeof isoDuration !== "string") return 0;
+
+  const match = isoDuration.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/i);
+  if (!match) return 0;
+
+  const hours = Number.parseInt(match[1] || "0", 10);
+  const minutes = Number.parseInt(match[2] || "0", 10);
+  const seconds = Number.parseInt(match[3] || "0", 10);
+
+  return hours * 60 + minutes + seconds / 60;
+}
+
+function tokenizeQuery(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((token) => token.length > 2);
+}
+
+function scoreYoutubeCandidate(video, queryTokens, craftPhrase) {
+  const title = String(video?.snippet?.title || "").toLowerCase();
+  const description = String(video?.snippet?.description || "").toLowerCase();
+  const channel = String(video?.snippet?.channelTitle || "").toLowerCase();
+  const views = Number.parseInt(video?.statistics?.viewCount || "0", 10) || 0;
+  const minutes = parseIsoDurationToMinutes(video?.contentDetails?.duration);
+
+  let score = 0;
+
+  if (craftPhrase && title.includes(craftPhrase)) score += 24;
+  if (craftPhrase && description.includes(craftPhrase)) score += 10;
+
+  queryTokens.forEach((token) => {
+    if (title.includes(token)) score += 6;
+    if (description.includes(token)) score += 2;
+    if (channel.includes(token)) score += 1;
+  });
+
+  if (/beginner|for beginners|easy/.test(title)) score += 14;
+  if (/tutorial|how to|step by step/.test(title)) score += 12;
+  if (/full tutorial|complete guide/.test(title)) score += 8;
+  if (/advanced|expert/.test(title)) score -= 8;
+  if (/shorts|timelapse|time lapse/.test(title)) score -= 12;
+
+  if (minutes >= 4 && minutes <= 45) {
+    score += 10;
+  } else if (minutes < 2) {
+    score -= 14;
+  } else if (minutes > 90) {
+    score -= 8;
+  }
+
+  if (views > 0) {
+    score += Math.min(12, Math.log10(views + 1) * 2);
+  }
+
+  return score;
+}
+
 function normalizeSkillEstimatorResponse(raw) {
   const candidates = [raw, raw?.data, raw?.result, raw?.estimate].filter(Boolean);
 
@@ -551,35 +611,72 @@ async function requestYoutubeTutorialFromApi(query) {
   const apiKey = typeof window.CRAFT_ADDICT_YOUTUBE_API_KEY === "string" ? window.CRAFT_ADDICT_YOUTUBE_API_KEY.trim() : "";
   if (!apiKey) return null;
 
-  const params = new URLSearchParams({
+  const searchParams = new URLSearchParams({
     part: "snippet",
     q: query,
-    maxResults: "1",
+    maxResults: "8",
+    order: "relevance",
     type: "video",
     key: apiKey
   });
 
-  const url = `https://www.googleapis.com/youtube/v3/search?${params.toString()}`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`YouTube API failed with status ${response.status}`);
+  const searchUrl = `https://www.googleapis.com/youtube/v3/search?${searchParams.toString()}`;
+  const searchResponse = await fetch(searchUrl);
+  if (!searchResponse.ok) {
+    throw new Error(`YouTube API failed with status ${searchResponse.status}`);
   }
 
-  const body = await response.json();
-  const video = Array.isArray(body.items) ? body.items[0] : null;
-  const videoId = video?.id?.videoId;
-  if (!videoId) return null;
+  const searchBody = await searchResponse.json();
+  const candidates = Array.isArray(searchBody.items) ? searchBody.items : [];
+  const candidateIds = candidates.map((item) => item?.id?.videoId).filter(Boolean);
+  if (candidateIds.length === 0) return null;
+
+  const detailsParams = new URLSearchParams({
+    part: "snippet,contentDetails,statistics",
+    id: candidateIds.join(","),
+    key: apiKey
+  });
+
+  let detailedVideos = [];
+  const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?${detailsParams.toString()}`;
+  const detailsResponse = await fetch(detailsUrl);
+
+  if (detailsResponse.ok) {
+    const detailsBody = await detailsResponse.json();
+    detailedVideos = Array.isArray(detailsBody.items) ? detailsBody.items : [];
+  } else {
+    detailedVideos = candidates.map((item) => ({
+      id: item?.id?.videoId,
+      snippet: item?.snippet,
+      contentDetails: {},
+      statistics: {}
+    }));
+  }
+
+  const queryTokens = tokenizeQuery(query);
+  const craftPhrase = appState.result.currentSuggestion.name.toLowerCase();
+
+  const ranked = detailedVideos
+    .filter((video) => video?.id)
+    .map((video) => ({
+      video,
+      score: scoreYoutubeCandidate(video, queryTokens, craftPhrase)
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const best = ranked[0]?.video;
+  if (!best) return null;
 
   const thumbnailUrl =
-    video?.snippet?.thumbnails?.high?.url ||
-    video?.snippet?.thumbnails?.medium?.url ||
-    video?.snippet?.thumbnails?.default?.url ||
+    best?.snippet?.thumbnails?.high?.url ||
+    best?.snippet?.thumbnails?.medium?.url ||
+    best?.snippet?.thumbnails?.default?.url ||
     "";
 
   return {
     status: "ready",
-    title: video?.snippet?.title || `How to make ${appState.result.currentSuggestion.name} for beginners`,
-    url: `https://www.youtube.com/watch?v=${videoId}`,
+    title: best?.snippet?.title || `How to make ${appState.result.currentSuggestion.name} for beginners`,
+    url: `https://www.youtube.com/watch?v=${best.id}`,
     thumbnailUrl,
     message: ""
   };
